@@ -5,7 +5,7 @@ function About() {
       <div
         className="about-section"
         style={{
-          backgroundImage: "url('src/assets/aboutimg.jpg')",
+          backgroundImage: "url('/aboutimg.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center",
           height: "400px",

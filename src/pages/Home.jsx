@@ -19,7 +19,7 @@ import "./Home.css";
           alignItems: "center",
           justifyContent: "center",
           textAlign: "center",
-          backgroundImage: "url('src/assets/steammomo.jpg')",
+          backgroundImage: "url('images/steammomo.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -101,7 +101,7 @@ import "./Home.css";
           {/* Pizza */}
 
           <div className="carousel-item active">
-            <img src="src/assets/Delicious-Pizza-Pictures.webp" className="d-block w-100" alt="Pizza"  style = {{height:"570px" , width:"100%" , objectFit :"contain"}}/>
+            <img src="public/images/Delicious-Pizza.jpg" className="d-block w-100" alt="Pizza"  style = {{height:"570px" , width:"100%" , objectFit :"contain"}}/>
             <div className="carousel-caption d-none d-md-block">
               <h5>Delicious Pizza</h5>
               <p>Try our special Margherita Pizza today.</p>
@@ -111,7 +111,7 @@ import "./Home.css";
           {/* Burger */}
 
           <div className="carousel-item" style = {{backgroundColor:"#000"}}>
-            <img src="src/assets/burger.webp" className="d-block w-100 bg-dark" alt="Burger" style =  {{height:"570px" , width:"100%" , objectFit :"contain"}}/>
+            <img src="images/Burger.jpg" className="d-block w-100 bg-dark" alt="Burger" style =  {{height:"570px" , width:"100%" , objectFit :"contain"}}/>
             <div className="carousel-caption d-none d-md-block">
               <h5>Juicy Burgers</h5>
               <p>Freshly made veggie burgers just for you.</p>
@@ -121,7 +121,7 @@ import "./Home.css";
           {/* Pasta */}
 
           <div className="carousel-item">
-            <img src="src/assets/creamy-pastha.jpg" className="d-block w-100" alt="Pasta" style =  {{height:"570px" , width:"100%" , objectFit :"contain"}}/>
+            <img src="images/creamy-pastha.jpg" className="d-block w-100" alt="Pasta" style =  {{height:"570px" , width:"100%" , objectFit :"contain"}}/>
             <div className="carousel-caption d-none d-md-block">
               <h5>Creamy Pasta</h5>
               <p>Indulge in our creamy Alfredo Pasta.</p>
@@ -131,7 +131,7 @@ import "./Home.css";
           {/* Steamed Momos */}
 
           <div className="carousel-item">
-            <img src="src/assets/momoimg1.jpg" className="d-block w-100" alt="Steamed Momos" style =  {{height:"570px" , width:"100%" , objectFit :"contain"}}/>
+            <img src="images/momoimg1.jpg" className="d-block w-100" alt="Steamed Momos" style =  {{height:"570px" , width:"100%" , objectFit :"contain"}}/>
             <div className="carousel-caption d-none d-md-block">
               <h5>Steamed Momos</h5>
               <p>Hot & fresh momos served with spicy chutney.</p>
@@ -141,7 +141,7 @@ import "./Home.css";
           {/* Fried Momos */}
 
           <div className="carousel-item">
-            <img src="src/assets/friedmomo.jpg" className="d-block w-100" alt="Fried Momos" style = {{height:"570px" , width:"100%" , objectFit :"contain"}}/>
+            <img src="images/friedmomo.jpg" className="d-block w-100" alt="Fried Momos" style = {{height:"570px" , width:"100%" , objectFit :"contain"}}/>
             <div className="carousel-caption d-none d-md-block">
               <h5>Crispy Fried Momos</h5>
               <p>Golden fried momos for a crunchy delight.</p>

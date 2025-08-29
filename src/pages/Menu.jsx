@@ -118,7 +118,7 @@ function Menu() {
       <div
         className="text-white text-center d-flex align-items-center justify-content-center"
         style={{
-          backgroundImage: "url('src/assets/menubg.jpg')",
+          backgroundImage: "url('images/menubg.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center",
           height: "200px",
@@ -131,7 +131,7 @@ function Menu() {
 
       {/* Menu Grid */}
       <Container fluid className="my-5"  style={{
-          backgroundImage: "url('src/assets/menubg.jpg')",
+          backgroundImage: "url('images/menubg.jpg')",
           backgroundSize: "cover",}} >
         <Row>
           {menuItems.map((item) => (
