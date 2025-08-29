@@ -1,0 +1,43 @@
+.logo{
+
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    
+
+}
+.navbar-nav .nav-link {
+  color: #f5aaaa !important;         /* default color */
+  font-weight: 500;
+  margin: 0 12px;                 /* space between items */
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+/* Hover effect */
+.navbar-nav .nav-link:hover {
+  color: #ff9800 !important;      /* orange on hover */
+}
+
+/* Underline animation */
+.navbar-nav .nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: #ff9800;
+  transition: width 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover::after {
+  width: 100%;
+}
+
+/* Active link */
+.navbar-nav .nav-link.active {
+  color: #ff9800 !important;      /* orange for active page */
+  font-weight: 600;
+}
