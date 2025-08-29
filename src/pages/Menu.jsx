@@ -1,5 +1,7 @@
-import React from "react";
+
+import React, { useContext } from "react";
 import { Card, Button, Row, Col, Container } from "react-bootstrap";
+import { CartContext } from "../context/CartContext";
 
 
 const menuItems = [
@@ -8,44 +10,46 @@ const menuItems = [
     name: "Cheese Pizza",
     description: "Delicious cheesy pizza with fresh toppings.",
     price: 299,
-    image: "https://via.placeholder.com/400x250.png?text=Pizza",
+    image: "images/pizza.jpg",
   },
   {
     id: 2,
     name: "Spicy Momos",
     description: "Steamed dumplings served with spicy chutney.",
     price: 199,
-    image: "https://via.placeholder.com/400x250.png?text=Momos",
+    image: "images/spicy-chicken.jpg",
   },
   {
     id: 3,
     name: "Fried Rice",
     description: "Classic fried rice loaded with veggies and flavors.",
     price: 249,
-    image: "https://via.placeholder.com/400x250.png?text=Fried+Rice",
+    image: "images/fried rice.jpg",
   },
   {
     id: 4,
     name: "Chocolate Cake",
     description: "Soft and rich chocolate cake for dessert lovers.",
     price: 180,
-    image: "https://via.placeholder.com/400x250.png?text=Cake",
+    image: "images/Chocolate-Cake.jpg",
   },
   {
     id: 5,
     name: "Cold Coffee",
     description: "Refreshing cold coffee with ice cream topping.",
     price: 120,
-    image: "https://via.placeholder.com/400x250.png?text=Coffee",
+    image: "public/images/cold-coffee.jpg",
   },
   {
     id: 6,
     name: "Burger",
     description: "Juicy burger with crispy fries on the side.",
     price: 220,
-    image: "https://via.placeholder.com/400x250.png?text=Burger",
+    image: "images/burger.avif",
   },
-  {
+  ];
+
+  {/*
     id: 7,
     name: "",
     description: "",
@@ -107,11 +111,14 @@ const menuItems = [
     description: "",
     price:100 ,
     image:"",
-  },
+  },*/}
    
-];
+
 
 function Menu() {
+
+  const { addToCart } = useContext(CartContext);
+
   return (
     <div>
      
@@ -124,12 +131,16 @@ function Menu() {
           height: "200px",
         }}
       >
-        <h1 className="fw-bold" style={{  backgroundColor: "rgba(0,0,0,0.5)", padding: "10px 20px", borderRadius: "8px" }}>
+        <h1 className="fw-bold" style={{ color:" #d8b0b0ff",padding: "10px 20px", borderRadius: "8px" }}>
           Our Menu
         </h1>
+        <p className="text-white fs-5 fst-italic mt-2">
+  Choose from our delicious dishes!
+</p>
+
       </div>
 
-      {/* Menu Grid */}
+     
       <Container fluid className="my-5"  style={{
           backgroundImage: "url('images/menubg.jpg')",
           backgroundSize: "cover",}} >
@@ -147,9 +158,14 @@ function Menu() {
                   <Card.Title>{item.name}</Card.Title>
                   <Card.Text>{item.description}</Card.Text>
                   <h5 className="text-success">₹{item.price}</h5>
-                  <Button variant="warning" className="mt-2 w-100">
-                    Add to Cart 🛒
-                  </Button>
+                  <Button
+  variant="warning"
+  className="mt-2 w-100"
+  onClick={() => addToCart(item)}   // ✅ add this
+>
+  Add to Cart 🛒
+</Button>
+
                 </Card.Body>
               </Card>
             </Col>

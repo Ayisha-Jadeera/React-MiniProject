@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
+import { CartProvider } from "./context/CartContext";
+
 import App from "./App";
 import "bootstrap/dist/css/bootstrap.min.css"; 
 import "bootstrap/dist/js/bootstrap.bundle.min.js"; 
@@ -14,10 +16,14 @@ root.render(
 
     <BrowserRouter>
 
-      <App />
+      <CartProvider>
+
+        <App />
+
+      </CartProvider>
 
     </BrowserRouter>
 
   </React.StrictMode>
-  
+
 );

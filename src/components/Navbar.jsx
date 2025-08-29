@@ -1,12 +1,16 @@
 import { Link } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import logo from "/images/logo.png";
 import "./Navbar.css"
 
 function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-3 sticky-top shadow">
+         <div className="container-fluid">
    
-      <Link to="/Home" className="navbar-brand d-flex align-items-center">
+       <Link to="/" className="navbar-brand">
+            
         <img
           src={logo}
           alt="Logo" className="logo"
@@ -30,18 +34,16 @@ function Navbar() {
    
       <div className="collapse navbar-collapse" id="navbarNav" >
         <div className="ms-auto navbar-nav" >
-          <Link  className="nav-link" to="/">Home</Link>
+          <Link className="nav-link" to="/">Home</Link>
           <Link className="nav-link" to="/menu">Menu</Link>
-         
+
           <Link className="nav-link" to="/about">About</Link>
           <Link className="nav-link" to="/contact">Contact</Link>
-           <Link className="nav-link" to="/cart">Cart</Link>
+          <Link className="nav-link" to="/cart">🛒Cart</Link>
           <Link className="nav-link" to="/login">Login</Link>
-          <Link className="nav-link" to="/signup">Signup</Link>
-
         </div>
       </div>
-        
+        </div>
     </nav>
   );
 }

@@ -1,19 +1,17 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import "./Home.css";
 
- function Home() {
+function Home() {
+  const navigate = useNavigate(); 
+
   return (
-
-    
-
- <main >
-
- 
-     <section
-  id="hero"
-  style={{
+    <main>
+      <section
+        id="hero"
+        style={{
           height: "100vh",
           display: "flex",
           alignItems: "center",
@@ -23,67 +21,66 @@ import "./Home.css";
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          width: "100%",    
+          width: "100%",
           position: "relative",
           color: "white",
         }}
->
+      >
+      
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0,0,0,0.55)",
+            zIndex: 1,
+          }}
+        ></div>
 
-  <div
-    style={{
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      backgroundColor: "rgba(0,0,0,0.55)",
-      zIndex: 1,
-    }}
-  ></div>
+     
+        <div
+          style={{
+            position: "relative",
+            zIndex: 2,
+            maxWidth: "700px",
+            padding: "20px",
+            animation: "fadeIn 2s ease-in-out",
+          }}
+        >
+          <h1 style={{ fontSize: "60px", marginBottom: "20px", fontWeight: "bold" }}>
+            Delicious Meals, <br /> Delivered Fast..!
+          </h1>
+          <p style={{ fontSize: "22px", marginBottom: "30px", lineHeight: "1.6" }}>
+            Welcome to <b><span style={{ color: "yellow" }}>🍴 Parche</span></b> – your one-stop food ordering app.  
+            From sizzling pizzas to juicy momos, we bring flavors from your favorite kitchens straight to your doorstep.
+          </p>
+
+        
+          <button
+            style={{
+              padding: "14px 30px",
+              fontSize: "18px",
+              fontWeight: "600",
+              background: "#db2114ff",
+              color: "#fff",
+              border: "none",
+              borderRadius: "30px",
+              cursor: "pointer",
+              transition: "all 0.3s ease",
+            }}
+            onMouseOver={(e) => (e.target.style.background = "#4e0707ff")}
+            onMouseOut={(e) => (e.target.style.background = "#db2114ff")}
+            className="btn btn-success btn-lg"
+            onClick={() => navigate("/menu")} 
+          >
+            🍔 Explore Menu
+          </button>
+        </div>
+      </section>
 
 
-  <div
-    style={{
-      position: "relative",
-      zIndex: 2,
-      maxWidth: "700px",
-      padding: "20px",
-      animation: "fadeIn 2s ease-in-out",
-    }}
-  >
-    <h1 style={{ fontSize: "60px", marginBottom: "20px", fontWeight: "bold" }}>
-      Delicious Meals, <br /> Delivered Fast..!
-    </h1>
-    <p style={{ fontSize: "22px", marginBottom: "30px", lineHeight: "1.6" }}>
-      Welcome to <b><span style ={{color:"yellow"}}>🍴 Parche</span> </b> – your one-stop food ordering app.  
-      From sizzling pizzas to juicy momos, we bring flavors from your favorite kitchens straight to your doorstep.
-    </p>
-
-    <button
-      style={{
-        padding: "14px 30px",
-        fontSize: "18px",
-        fontWeight: "600",
-        background: "#f44336",
-        color: "#fff",
-        border: "none",
-        borderRadius: "30px",
-        cursor: "pointer",
-        transition: "all 0.3s ease",
-      }}
-      onMouseOver={(e) => (e.target.style.background = "#4e0707ff")}
-      onMouseOut={(e) => (e.target.style.background = "#db2114ff")}
-      onClick={() =>
-        document
-          .getElementById("menu")
-          .scrollIntoView({ behavior: "smooth" })
-      }
-    >
-      🍔 Explore Menu
-    </button>
-  </div>
-</section>
-    
       <div id="foodCarousel" className="carousel slide mb-6" data-bs-ride="carousel" data-bs-interval="3000">
         
       

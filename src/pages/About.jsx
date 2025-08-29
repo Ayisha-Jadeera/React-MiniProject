@@ -1,7 +1,8 @@
 function About() {
   return (
     <div>
-      {/* About Section */}
+ 
+
       <div
         className="about-section"
         style={{
@@ -12,7 +13,7 @@ function About() {
           position: "relative",
         }}
       >
-        {/* Overlay */}
+      
         <div
           className="overlay"
           style={{ backgroundColor: "rgba(0,0,0,0.6)", height: "100%" }}
@@ -59,7 +60,7 @@ function About() {
         </div>
       </div>
 
-      {/* Facilities Section */}
+  
       <div className="facilities-section py-5 bg-dark">
         <div className="container">
           <h2 className="text-center mb-4" style={{color:"green"}}>
@@ -67,7 +68,8 @@ function About() {
           </h2>
 
           <div className="row g-4">
-            {/* Service Options */}
+        
+
             <div className="col-md-4">
               <div className="p-3 bg-white shadow rounded h-100">
                 <h5>Service Options</h5>
@@ -83,7 +85,7 @@ function About() {
               </div>
             </div>
 
-            {/* Highlights */}
+
             <div className="col-md-4">
               <div className="p-3 bg-white shadow rounded h-100">
                 <h5>Highlights</h5>
@@ -99,7 +101,6 @@ function About() {
               </div>
             </div>
 
-            {/* Offerings */}
             <div className="col-md-4">
               <div className="p-3 bg-white shadow rounded h-100">
                 <h5>Offerings</h5>
@@ -201,7 +202,8 @@ function About() {
         <div className="container">
           <h2 className="text-center mb-4">Meet Our <span className="highlight">Team</span></h2>
           <div className="row text-center">
-            {/* Team Member 1 */}
+         
+
             <div className="col-md-4 mb-4">
               <img
                 src="images/team2.jpg"
@@ -214,7 +216,6 @@ function About() {
               <p className="text-muted">Founder & CEO</p>
             </div>
 
-            {/* Team Member 2 */}
             <div className="col-md-4 mb-4">
               <img
                 src="images/team3.jpeg"
@@ -227,7 +228,7 @@ function About() {
               <p className="text-muted">Head of Operations</p>
             </div>
 
-            {/* Team Member 3 */}
+        
             <div className="col-md-4 mb-4">
               <img
                 src="images/team1.jpg"
