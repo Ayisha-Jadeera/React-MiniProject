@@ -101,7 +101,7 @@ import "./Home.css";
           {/* Pizza */}
 
           <div className="carousel-item active">
-            <img src="images/Delicious-Pizza.jpg" className="d-block w-100" alt="Pizza"  style = {{height:"570px" , width:"100%" , objectFit :"contain"}}/>
+            <img src="images/pizza.jpg" className="d-block w-100" alt="Pizza"  style = {{height:"570px" , width:"100%" , objectFit :"contain"}}/>
             <div className="carousel-caption d-none d-md-block">
               <h5>Delicious Pizza</h5>
               <p>Try our special Margherita Pizza today.</p>

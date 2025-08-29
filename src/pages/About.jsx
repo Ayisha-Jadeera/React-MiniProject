@@ -204,7 +204,7 @@ function About() {
             {/* Team Member 1 */}
             <div className="col-md-4 mb-4">
               <img
-                src="src/assets/team2.jpg"
+                src="images/team2.jpg"
                 alt="Team Member"
                 className="rounded-circle mb-3"
                 width="150"
@@ -217,7 +217,7 @@ function About() {
             {/* Team Member 2 */}
             <div className="col-md-4 mb-4">
               <img
-                src="src/assets/team3.jpeg"
+                src="images/team3.jpeg"
                 alt="Team Member"
                 className="rounded-circle mb-3"
                 width="150"
@@ -230,7 +230,7 @@ function About() {
             {/* Team Member 3 */}
             <div className="col-md-4 mb-4">
               <img
-                src="src/assets/team1.jpg"
+                src="images/team1.jpg"
                 alt="Team Member"
                 className="rounded-circle mb-3"
                 width="150"
