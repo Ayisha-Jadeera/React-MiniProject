@@ -2,11 +2,33 @@ import React, { useContext } from "react";
 import { CartContext } from "../context/CartContext";
 
 export default function CartPage() {
-  const { cart, increaseQty, decreaseQty, removeItem, total } =
+  const { cart, increaseQty, decreaseQty, removeItem, total, clearCart } =
     useContext(CartContext);
 
-  
-  const calculatedTotal = total !== undefined ? total: cart.reduce((acc, item) => acc + item.price * item.qty, 0);
+  const calculatedTotal =
+    total !== undefined
+      ? total
+      : cart.reduce((acc, item) => acc + item.price * item.qty, 0);
+
+  // ✅ Checkout function
+  const handleCheckout = () => {
+    if (cart.length === 0) {
+      alert("Your cart is empty!");
+      return;
+    }
+
+    // Example order object (you can send this to a backend API later)
+    const orderData = {
+      items: cart,
+      total: calculatedTotal,
+      date: new Date().toLocaleString(),
+    };
+
+    console.log("✅ Order Placed:", orderData);
+
+    alert(`✅ Order placed successfully!\nTotal: ₹${calculatedTotal}`);
+    clearCart(); // Empty cart after checkout
+  };
 
   return (
     <div
@@ -83,7 +105,9 @@ export default function CartPage() {
             {/* ✅ Show correct total */}
             <div className="d-flex justify-content-between mt-3">
               <h4 className="text-dark">Total: ₹{calculatedTotal}</h4>
-              <button className="btn btn-success">Checkout</button>
+              <button className="btn btn-success" onClick={handleCheckout}>
+                Checkout
+              </button>
             </div>
           </>
         )}
@@ -91,3 +115,4 @@ export default function CartPage() {
     </div>
   );
 }
+
