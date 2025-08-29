@@ -38,7 +38,7 @@ const menuItems = [
     name: "Cold Coffee",
     description: "Refreshing cold coffee with ice cream topping.",
     price: 120,
-    image: "public/images/cold-coffee.jpg",
+    image: "images/cold-coffee.jpg",
   },
   {
     id: 6,
@@ -161,7 +161,7 @@ function Menu() {
                   <Button
   variant="warning"
   className="mt-2 w-100"
-  onClick={() => addToCart(item)}   // ✅ add this
+  onClick={() => addToCart(item)} 
 >
   Add to Cart 🛒
 </Button>
