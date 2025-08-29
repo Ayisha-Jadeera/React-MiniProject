@@ -6,10 +6,10 @@ function Contact() {
       <div
         className="contact-hero"
         style={{
-          backgroundImage: "url('src/assets/contact.jpg')",
+          backgroundImage: "url('images/contact.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center",
-          height: "300px",
+          height: "400px",
           position: "relative",
         }}
       >
