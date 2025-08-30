@@ -53,6 +53,7 @@ function Navbar({ cart }) {
             </Link>
 
             <Link className="nav-link" to="/login">Login</Link>
+            <Link className="nav-link" to="/myorders">MyOrders</Link>
           </div>
         </div>
       </div>
