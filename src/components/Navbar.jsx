@@ -9,14 +9,14 @@ function Navbar({ cart }) {
   const totalItems = cart.reduce((acc, item) => acc + item.qty, 0);
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-3 sticky-top shadow">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-black px-3 sticky-top shadow">
       <div className="container-fluid">
         <Link to="/" className="navbar-brand">
           <img
             src={logo}
             alt="Logo"
             className="logo"
-            style={{ height: "80px", objectFit: "cover" }}
+            style={{ height: "100px", objectFit: "cover" }}
           />
         </Link>
 
