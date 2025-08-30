@@ -55,13 +55,11 @@ function Cart({ cart, setCart }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validate basic fields
     if (!formData.name || !formData.address || !formData.phone) {
       alert("⚠️ Please fill all required fields!");
       return;
     }
 
-    // Validate card fields
     if (formData.payment === "Card") {
       if (!formData.cardNumber || !formData.expiry || !formData.cvv) {
         alert("⚠️ Please enter complete card details!");
@@ -69,7 +67,6 @@ function Cart({ cart, setCart }) {
       }
     }
 
-    // Validate UPI
     if (formData.payment === "UPI" && !formData.upiId) {
       alert("⚠️ Please enter your UPI ID!");
       return;
@@ -85,7 +82,6 @@ function Cart({ cart, setCart }) {
     console.log("✅ Order Placed:", orderData);
     alert(`✅ Order placed successfully via ${formData.payment}!`);
 
-    // Reset cart and form
     clearCart();
     setShowForm(false);
     setFormData({
@@ -112,18 +108,17 @@ function Cart({ cart, setCart }) {
         backgroundPosition: "center",
         display: "flex",
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "flex-start",
         padding: "20px",
       }}
     >
+      {/* Cart Box */}
       <div
-        className="card shadow p-4"
-  style={{
-    position: "fixed",
-    top: "300px", 
-    left: "20px",  
-    width: "400px", 
-    zIndex: 1000,
+        className="card shadow p-4 w-100"
+        style={{
+          maxWidth: "400px", 
+          marginTop: "100px",
+          marginRight: "100px",
         }}
       >
         <h2 className="fw-bold text-center mb-4" style={{ color: "#f44336" }}>
@@ -131,7 +126,10 @@ function Cart({ cart, setCart }) {
         </h2>
 
         {cart.length === 0 ? (
-          <p className="fs-4 fw-semibold text-center" style={{ color: "#373636" }}>
+          <p
+            className="fs-5 fw-semibold text-center"
+            style={{ color: "#373636" }}
+          >
             Your cart is empty
           </p>
         ) : (
@@ -139,23 +137,23 @@ function Cart({ cart, setCart }) {
             {cart.map((item) => (
               <div
                 key={item.id}
-                className="d-flex justify-content-between align-items-center border-bottom py-2"
+                className="d-flex justify-content-between align-items-center border-bottom py-2 flex-wrap"
               >
                 <div>
-                  <h5 className="mb-1 text-dark">{item.name}</h5>
-                  <p className="mb-0 text-muted">
+                  <h6 className="mb-1 text-dark">{item.name}</h6>
+                  <p className="mb-0 text-muted small">
                     ₹{item.price} x {item.qty}
                   </p>
                 </div>
-                <div>
+                <div className="mt-2 mt-md-0">
                   <button
-                    className="btn btn-sm btn-outline-secondary me-2"
+                    className="btn btn-sm btn-outline-secondary me-1"
                     onClick={() => decreaseQty(item.id)}
                   >
                     ➖
                   </button>
                   <button
-                    className="btn btn-sm btn-outline-secondary me-2"
+                    className="btn btn-sm btn-outline-secondary me-1"
                     onClick={() => increaseQty(item.id)}
                   >
                     ➕
@@ -171,8 +169,11 @@ function Cart({ cart, setCart }) {
             ))}
 
             <div className="d-flex justify-content-between mt-3">
-              <h4 className="text-dark">Total: ₹{total}</h4>
-              <button className="btn btn-success" onClick={() => setShowForm(true)}>
+              <h5 className="text-dark">Total: ₹{total}</h5>
+              <button
+                className="btn btn-success btn-sm"
+                onClick={() => setShowForm(true)}
+              >
                 Checkout
               </button>
             </div>
@@ -194,14 +195,16 @@ function Cart({ cart, setCart }) {
             justifyContent: "center",
             alignItems: "center",
             zIndex: 1000,
+            padding: "15px",
           }}
         >
           <div
+            className="w-100"
             style={{
               background: "#fff",
               padding: "20px",
               borderRadius: "10px",
-              width: "400px",
+              maxWidth: "500px", // responsive width
             }}
           >
             <h3 className="text-center mb-3">Checkout</h3>
@@ -244,7 +247,7 @@ function Cart({ cart, setCart }) {
                 />
               </div>
 
-              {/* Payment Method */}
+              {/* Payment */}
               <div className="mb-3">
                 <label className="form-label">Payment Method</label>
                 <select
@@ -274,13 +277,13 @@ function Cart({ cart, setCart }) {
                       required
                     />
                   </div>
-                  <div className="mb-3 d-flex">
+                  <div className="mb-3 d-flex flex-wrap gap-2">
                     <input
                       type="text"
                       name="expiry"
                       value={formData.expiry}
                       onChange={handleChange}
-                      className="form-control me-2"
+                      className="form-control flex-fill"
                       placeholder="MM/YY"
                       required
                     />
@@ -289,7 +292,7 @@ function Cart({ cart, setCart }) {
                       name="cvv"
                       value={formData.cvv}
                       onChange={handleChange}
-                      className="form-control"
+                      className="form-control flex-fill"
                       placeholder="CVV"
                       required
                     />
@@ -297,7 +300,7 @@ function Cart({ cart, setCart }) {
                 </>
               )}
 
-              {/* UPI Field */}
+              {/* UPI */}
               {formData.payment === "UPI" && (
                 <div className="mb-3">
                   <label className="form-label">UPI ID</label>
@@ -313,13 +316,13 @@ function Cart({ cart, setCart }) {
                 </div>
               )}
 
-              <div className="d-flex justify-content-between">
-                <button type="submit" className="btn btn-primary">
+              <div className="d-flex justify-content-between flex-wrap gap-2">
+                <button type="submit" className="btn btn-primary flex-fill">
                   Confirm Order
                 </button>
                 <button
                   type="button"
-                  className="btn btn-secondary"
+                  className="btn btn-secondary flex-fill"
                   onClick={() => setShowForm(false)}
                 >
                   Cancel

@@ -16,7 +16,7 @@ function Navbar({ cart }) {
             src={logo}
             alt="Logo"
             className="logo"
-            style={{ height: "100px", objectFit: "cover" }}
+            style={{ height: "90px", objectFit: "cover" }}
           />
         </Link>
 
