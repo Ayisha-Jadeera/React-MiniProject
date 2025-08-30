@@ -1,18 +1,18 @@
 [
-  { "id": 1, "name": "Burger", "price": 120, "category": "Fast Food", "description": "Juicy grilled chicken patty with fresh lettuce and cheese.", "image": "https://example.com/images/burger.jpg" },
-  { "id": 2, "name": "Pizza", "price": 250, "category": "Fast Food", "description": "Cheesy loaded pizza with tomato sauce and toppings.", "image": "https://example.com/images/pizza.jpg" },
-  { "id": 3, "name": "Momos", "price": 80, "category": "Fast Food", "description": "Steamed dumplings filled with spiced chicken and veggies.", "image": "https://example.com/images/momos.jpg" },
-  { "id": 4, "name": "Tacos", "price": 120, "category": "Fast Food", "description": "Crispy tortilla shells stuffed with chicken and salsa.", "image": "https://example.com/images/tacos.jpg" },
-  { "id": 5, "name": "Fried Chicken", "price": 199, "category": "Fast Food", "description": "Crispy fried chicken with secret spices.", "image": "https://example.com/images/fried-chicken.jpg" },
-  { "id": 6, "name": "Chicken Wrap", "price": 129, "category": "Fast Food", "description": "Grilled chicken wrapped in soft tortilla bread.", "image": "https://example.com/images/chicken-wrap.jpg" },
+  { "id": 1, "name": "Burger", "price": 120, "category": "Fast Food", "description": "Juicy grilled chicken patty with fresh lettuce and cheese.", "image": "/images/burger.avif" },
+  { "id": 2, "name": "Pizza", "price": 250, "category": "Fast Food", "description": "Cheesy loaded pizza with tomato sauce and toppings.", "image": "/images/pizza.jpg" },
+  { "id": 3, "name": "Momos", "price": 80, "category": "Fast Food", "description": "Steamed dumplings filled with spiced chicken and veggies.", "image": "/images/steammomo.jpg" },
+  { "id": 4, "name": "Tacos", "price": 120, "category": "Fast Food", "description": "Crispy tortilla shells stuffed with chicken and salsa.", "image": "/images/tacos.avif" },
+  { "id": 5, "name": "Fried Chicken", "price": 199, "category": "Fast Food", "description": "Crispy fried chicken with secret spices.", "image": "/images/fried-chicken.jpg" },
+  { "id": 6, "name": "Chicken Wrap", "price": 129, "category": "Fast Food", "description": "Grilled chicken wrapped in soft tortilla bread.", "image": "/images/wrap.jpg" },
 
-  { "id": 9, "name": "Noodles", "price": 159, "category": "Main Course", "description": "Stir-fried noodles with vegetables and soy sauce.", "image": "https://example.com/images/noodles.jpg" },
-  { "id": 10, "name": "Fried Rice", "price": 190, "category": "Main Course", "description": "Chinese-style fried rice with eggs and vegetables.", "image": "https://example.com/images/fried-rice.jpg" },
+  { "id": 9, "name": "Noodles", "price": 159, "category": "Main Course", "description": "Stir-fried noodles with vegetables and soy sauce.", "image": "/images/noodles.webp" },
+  { "id": 10, "name": "Fried Rice", "price": 190, "category": "Main Course", "description": "Chinese-style fried rice with eggs and vegetables.", "image": "/images/fried-rice.jpg" },
 
-  { "id": 12, "name": "Spring Rolls", "price": 120, "category": "Starters", "description": "Crispy fried rolls stuffed with veggies.", "image": "https://example.com/images/spring-rolls.jpg" },
+  { "id": 12, "name": "Spring Rolls", "price": 120, "category": "Starters", "description": "Crispy fried rolls stuffed with veggies.", "image": "/images/spring-rolls.jpg" },
 
-  { "id": 14, "name": "Kunafa", "price": 149, "category": "Desserts", "description": "Traditional Middle Eastern sweet with cheese and syrup.", "image": "https://example.com/images/kunafa.jpg" },
+  { "id": 14, "name": "Kunafa", "price": 149, "category": "Desserts", "description": "Traditional Middle Eastern sweet with cheese and syrup.", "image": "/images/kunafa.jpg" },
 
-  { "id": 17, "name": "Cold Coffee", "price": 80, "category": "Beverages", "description": "Iced coffee blended with milk and sugar.", "image": "https://example.com/images/cold-coffee.jpg" }
+  { "id": 17, "name": "Cold Coffee", "price": 80, "category": "Beverages", "description": "Iced coffee blended with milk and sugar.", "image": "/images/cold-coffee.jpg" }
 ]
 
