@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // <-- import useNavigate
 
 export default function AuthForm() {
+  const navigate = useNavigate(); // <-- initialize navigate
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
@@ -22,12 +24,22 @@ export default function AuthForm() {
         return;
       }
       setMessage("✅ Login successful!");
+
+      // Redirect to menu after 1 second
+      setTimeout(() => {
+        navigate("/menu");
+      }, 1000);
     } else {
       if (!formData.name || !formData.email || !formData.password) {
         setMessage("❌ Please fill all fields to sign up.");
         return;
       }
       setMessage("✅ Account created successfully!");
+
+      // Redirect to menu after 1 second
+      setTimeout(() => {
+        navigate("/menu");
+      }, 1000);
     }
   };
 
@@ -35,7 +47,7 @@ export default function AuthForm() {
     <div
       className="d-flex justify-content-center align-items-center vh-100"
       style={{
-        backgroundImage: "url('/images/bglogin.jpg')", 
+        backgroundImage: "url('/images/bglogin.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         height: "100vh",
@@ -45,10 +57,10 @@ export default function AuthForm() {
       <div
         className="card shadow p-4"
         style={{
-          color:"black",
+          color: "black",
           width: "380px",
           borderRadius: "20px",
-          backgroundColor: "rgba(255, 255, 255, 0.3)", 
+          backgroundColor: "rgba(255, 255, 255, 0.3)",
         }}
       >
         <h2 className="text-center mb-4">
