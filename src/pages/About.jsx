@@ -218,13 +218,13 @@ function About() {
 
             <div className="col-md-4 mb-4">
               <img
-                src="images/team3.jpeg"
+                src="images/yaseen.jpg"
                 alt="Team Member"
                 className="rounded-circle mb-3"
                 width="150"
                 height="150"
               />
-              <h5>Ayisha</h5>
+              <h5>Yaseen</h5>
               <p className="text-muted">Head of Operations</p>
             </div>
 
