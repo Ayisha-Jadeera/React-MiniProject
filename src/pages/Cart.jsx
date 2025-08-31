@@ -4,32 +4,20 @@ import { useNavigate } from "react-router-dom";
 function Cart({ cart, setCart }) {
   const navigate = useNavigate();
 
-  // Increase quantity
-  const increaseQty = (id) => {
-    setCart(cart.map((item) =>
-      item.id === id ? { ...item, qty: item.qty + 1 } : item
-    ));
-  };
+  const increaseQty = (id) =>
+    setCart(cart.map(item => item.id === id ? { ...item, qty: item.qty + 1 } : item));
 
-  // Decrease quantity
-  const decreaseQty = (id) => {
-    setCart(
-      cart
-        .map((item) => (item.id === id ? { ...item, qty: item.qty - 1 } : item))
-        .filter((item) => item.qty > 0)
+  const decreaseQty = (id) =>
+    setCart(cart
+      .map(item => item.id === id ? { ...item, qty: item.qty - 1 } : item)
+      .filter(item => item.qty > 0)
     );
-  };
 
-  // Remove item
-  const removeItem = (id) => setCart(cart.filter((item) => item.id !== id));
-
-  // Clear cart
+  const removeItem = (id) => setCart(cart.filter(item => item.id !== id));
   const clearCart = () => setCart([]);
 
-  // Calculate total
   const total = cart.reduce((acc, item) => acc + item.price * item.qty, 0);
 
-  // Checkout form state
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -42,23 +30,21 @@ function Cart({ cart, setCart }) {
     upiId: "",
   });
 
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validation
-    if (!formData.name || !formData.address || !formData.phone) {
+    if (!formData.name || !formData.address || !formData.phone)
       return alert("⚠️ Please fill all required fields!");
-    }
 
-    if (formData.payment === "Card" && (!formData.cardNumber || !formData.expiry || !formData.cvv)) {
+    if (formData.payment === "Card" &&
+        (!formData.cardNumber || !formData.expiry || !formData.cvv))
       return alert("⚠️ Please enter complete card details!");
-    }
 
-    if (formData.payment === "UPI" && !formData.upiId) {
+    if (formData.payment === "UPI" && !formData.upiId)
       return alert("⚠️ Please enter your UPI ID!");
-    }
 
     const orderData = {
       customer: formData,
@@ -67,7 +53,6 @@ function Cart({ cart, setCart }) {
       date: new Date().toLocaleString(),
     };
 
-    // Save order to localStorage
     const savedOrders = JSON.parse(localStorage.getItem("orders")) || [];
     savedOrders.push(orderData);
     localStorage.setItem("orders", JSON.stringify(savedOrders));
@@ -103,11 +88,7 @@ function Cart({ cart, setCart }) {
         padding: "20px",
       }}
     >
-      {/* Cart Box */}
-      <div
-        className="card shadow p-4 w-100"
-        style={{ maxWidth: "400px", marginTop: "100px" }}
-      >
+      <div className="card shadow p-4 w-100" style={{ maxWidth: "400px", marginTop: "100px" ,marginRight: "100px" }}>
         <h2 className="fw-bold text-center mb-4 text-danger">🛒 Your Cart</h2>
 
         {cart.length === 0 ? (
@@ -139,7 +120,7 @@ function Cart({ cart, setCart }) {
         )}
       </div>
 
-      {/* Checkout Modal */}
+      {/* Checkout Form Modal */}
       {showForm && (
         <div
           style={{
@@ -156,10 +137,7 @@ function Cart({ cart, setCart }) {
             padding: "15px",
           }}
         >
-          <div
-            className="w-100 bg-white p-4 rounded"
-            style={{ maxWidth: "500px" }}
-          >
+          <div className="w-100 bg-white p-4 rounded" style={{ maxWidth: "500px" }}>
             <h3 className="text-center mb-3">Checkout</h3>
             <form onSubmit={handleSubmit}>
               <div className="mb-3">

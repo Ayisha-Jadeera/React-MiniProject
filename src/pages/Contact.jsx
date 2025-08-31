@@ -1,8 +1,9 @@
-import React from 'react'
+import React from 'react';
 
 function Contact() {
   return (
     <div>
+      {/* Hero Section */}
       <div
         className="contact-hero"
         style={{
@@ -26,12 +27,11 @@ function Contact() {
         </div>
       </div>
 
-    
+      {/* Contact Info & Form */}
       <div className="contact-section py-5">
         <div className="container">
           <div className="row g-4">
-
-         
+            {/* Contact Info */}
             <div className="col-md-5">
               <div className="p-4 h-100 bg-dark text-light rounded-3 shadow-lg">
                 <h3 className="mb-4">Get in Touch</h3>
@@ -42,15 +42,13 @@ function Contact() {
                   <strong>Phone:</strong> +91 98765 43210
                 </p>
                 <p className="mb-4">
-                  <strong>Address:</strong>Kasaragod, Kerala, India
+                  <strong>Address:</strong> Kasaragod, Kerala, India
                 </p>
-                <p>
-                  We’re here to help! Reach out for orders, feedback 💬
-                </p>
+                <p>We’re here to help! Reach out for orders, feedback 💬</p>
               </div>
             </div>
 
-          
+            {/* Contact Form */}
             <div className="col-md-7">
               <div className="card p-4 shadow-lg border-0 rounded-3">
                 <h4 className="mb-4">Send Us a Message</h4>
@@ -103,22 +101,56 @@ function Contact() {
         </div>
       </div>
 
-    {/* Google Maps Section */}
-      <div className="map-section">
+      {/* Responsive Clickable Google Map */}
+      <div
+        className="map-section"
+        style={{
+          position: "relative",
+          paddingBottom: "56.25%",
+          height: 0,
+          overflow: "hidden",
+          borderRadius: "12px",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+          margin: "2rem auto",
+        }}
+      >
         <iframe
           title="Google Map"
-          src="https://www.google.com/maps/place/parche+kasaragod/data=!4m2!3m1!1s0x3ba4831ecf08b64f:0x695b1b8f8874d459?sa=X&ved=1t:242&ictx=111"
-          width="100%"
-          height="400"
-          style={{ border: "0" }}
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3910.123456789!2d75.0023456!3d12.5001234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba4831ecf08b64f%3A0x695b1b8f8874d459!2sParche%2C%20Kasaragod%2C%20Kerala%2C%20India!5e0!3m2!1sen!2sin!4v1693486234567!5m2!1sen!2sin"
+          style={{
+            border: 0,
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+          }}
           allowFullScreen=""
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
         ></iframe>
+
+        {/* Transparent overlay to open full map on click */}
+        <a
+          href="https://www.google.com/maps/place/Parche,+Kasaragod,+Kerala,+India"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            zIndex: 10,
+          }}
+        ></a>
       </div>
     </div>
   );
 }
 
 export default Contact;
+
+
+
 

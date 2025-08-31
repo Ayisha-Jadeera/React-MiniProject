@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
+
 import Home from "./pages/Home";
 import Menu from "./pages/Menu";
 import About from "./pages/About";
@@ -13,6 +14,7 @@ import Login from "./pages/Login";
 import AdminLogin from "./pages/AdminLogin";
 import AdminPage from "./pages/AdminPage";
 import MyOrders from "./pages/MyOrders";
+
 
 function App() {
   const [cart, setCart] = useState([]);

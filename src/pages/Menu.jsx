@@ -1,30 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { Card, Button, Row, Col, Container, Form } from "react-bootstrap";
+import { fetchMenuItems } from "../utils/fakeOrderApi";
 
 function Menu({ cart, setCart }) {
   const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // ✅ Search & Category states
+  // Search & Category states
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  // ✅ Fetch JSON dynamically
+  // ✅ Fetch from localStorage instead of static JSON
   useEffect(() => {
-    fetch("/food.json") // local file in public/
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch menu");
-        return res.json();
-      })
-      .then((data) => {
-        setMenuItems(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
+    try {
+      const items = fetchMenuItems();
+      setMenuItems(items);
+      setLoading(false);
+    } catch (err) {
+      setError("Failed to load menu items");
+      setLoading(false);
+    }
   }, []);
 
   const addToCart = (item) => {
@@ -42,7 +38,7 @@ function Menu({ cart, setCart }) {
     }
   };
 
-  // ✅ Filtering logic
+  // Filtering logic
   const filteredItems = menuItems.filter((item) => {
     const matchesSearch = item.name
       ?.toLowerCase()
@@ -52,7 +48,7 @@ function Menu({ cart, setCart }) {
     return matchesSearch && matchesCategory;
   });
 
-  // ✅ Get unique categories
+  // Unique categories
   const categories = ["All", ...new Set(menuItems.map((item) => item.category))];
 
   if (loading) return <p className="text-center mt-4">Loading menu...</p>;
@@ -72,11 +68,7 @@ function Menu({ cart, setCart }) {
       >
         <h1
           className="fw-bold"
-          style={{
-            color: "#d8b0b0ff",
-            padding: "10px 20px",
-            borderRadius: "8px",
-          }}
+          style={{ color: "#d8b0b0ff", padding: "10px 20px", borderRadius: "8px" }}
         >
           Our Menu
         </h1>
@@ -149,4 +141,5 @@ function Menu({ cart, setCart }) {
 }
 
 export default Menu;
+
 

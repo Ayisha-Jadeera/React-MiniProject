@@ -15,7 +15,7 @@ function MyOrders() {
       style={{
         minHeight: "100vh",
         width: "100vw",
-        backgroundImage: "url('/images/food-cart.jpg')",
+        backgroundImage: "url('/images/orderbg.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         padding: "20px",
@@ -32,7 +32,7 @@ function MyOrders() {
           <div className="row g-4">
             {orders.map((order, index) => (
               <div key={index} className="col-12 col-md-6 col-lg-4">
-                <div className="card shadow-lg h-100">
+                <div className="card shadow h-100">
                   <div className="card-body d-flex flex-column">
                     <h5 className="card-title text-success">Order #{index + 1}</h5>
                     <p className="text-muted small mb-1">Date: {order.date}</p>
@@ -40,14 +40,23 @@ function MyOrders() {
 
                     <ul className="list-group mb-3">
                       {order.items.map((item) => (
-                        <li key={item.id} className="list-group-item d-flex justify-content-between align-items-center">
+                        <li
+                          key={item.id}
+                          className="list-group-item d-flex justify-content-between align-items-center"
+                        >
                           {item.name} × {item.qty} <span>₹{item.price * item.qty}</span>
                         </li>
                       ))}
                     </ul>
 
                     <h6 className="fw-bold text-dark mb-3">Total: ₹{order.total}</h6>
-                    <Button variant="primary" onClick={() => setSelectedOrder(order)} className="mt-auto">View Details</Button>
+                    <Button
+                      variant="primary"
+                      onClick={() => setSelectedOrder(order)}
+                      className="mt-auto"
+                    >
+                      View Details
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -55,7 +64,7 @@ function MyOrders() {
           </div>
         )}
 
-        {/* Order Details Modal */}
+        {/* Modal */}
         <Modal show={!!selectedOrder} onHide={() => setSelectedOrder(null)} centered>
           <Modal.Header closeButton>
             <Modal.Title>Order Details</Modal.Title>
@@ -73,7 +82,10 @@ function MyOrders() {
                 <h6 className="fw-bold">Items</h6>
                 <ul className="list-group mb-3">
                   {selectedOrder.items.map((item) => (
-                    <li key={item.id} className="list-group-item d-flex justify-content-between">
+                    <li
+                      key={item.id}
+                      className="list-group-item d-flex justify-content-between"
+                    >
                       {item.name} × {item.qty} <span>₹{item.price * item.qty}</span>
                     </li>
                   ))}
@@ -88,7 +100,9 @@ function MyOrders() {
             )}
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => setSelectedOrder(null)}>Close</Button>
+            <Button variant="secondary" onClick={() => setSelectedOrder(null)}>
+              Close
+            </Button>
           </Modal.Footer>
         </Modal>
       </div>
@@ -97,4 +111,5 @@ function MyOrders() {
 }
 
 export default MyOrders;
+
 
