@@ -40,6 +40,7 @@ function App() {
             <Route path="/admin-login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/myorders" element={<MyOrders theme={theme} />} />
+            <Route path="*" element={<AdminLogin />} />
             <Route path="*" element={<h1 className="text-center mt-5">404 - Page Not Found</h1>} />
           </Routes>
         </div>
