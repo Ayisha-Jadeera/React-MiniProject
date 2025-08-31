@@ -9,11 +9,19 @@ function Navbar({ cart, theme, toggleTheme }) {
   // Total quantity in cart
   const totalItems = cart.reduce((acc, item) => acc + item.qty, 0);
 
+  // Collapse menu after clicking a link
+  const handleNavClick = () => {
+    const navbar = document.getElementById("navbarNav");
+    if (navbar && navbar.classList.contains("show")) {
+      new window.bootstrap.Collapse(navbar).hide();
+    }
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-black px-3 sticky-top shadow">
       <div className="container-fluid">
         {/* Logo */}
-        <Link to="/" className="navbar-brand">
+        <Link to="/" className="navbar-brand" onClick={handleNavClick}>
           <img
             src={logo}
             alt="Logo"
@@ -38,13 +46,13 @@ function Navbar({ cart, theme, toggleTheme }) {
         {/* Nav Links */}
         <div className="collapse navbar-collapse" id="navbarNav">
           <div className="ms-auto navbar-nav align-items-center">
-            <Link className="nav-link" to="/">Home</Link>
-            <Link className="nav-link" to="/menu">Menu</Link>
-            <Link className="nav-link" to="/about">About</Link>
-            <Link className="nav-link" to="/contact">Contact</Link>
+            <Link className="nav-link" to="/" onClick={handleNavClick}>Home</Link>
+            <Link className="nav-link" to="/menu" onClick={handleNavClick}>Menu</Link>
+            <Link className="nav-link" to="/about" onClick={handleNavClick}>About</Link>
+            <Link className="nav-link" to="/contact" onClick={handleNavClick}>Contact</Link>
 
             {/* Cart link with badge */}
-            <Link className="nav-link position-relative" to="/cart">
+            <Link className="nav-link position-relative" to="/cart" onClick={handleNavClick}>
               🛒 Cart
               {totalItems > 0 && (
                 <span
@@ -56,8 +64,8 @@ function Navbar({ cart, theme, toggleTheme }) {
               )}
             </Link>
 
-            <Link className="nav-link" to="/login">Login</Link>
-            <Link className="nav-link" to="/myorders">MyOrders</Link>
+            <Link className="nav-link" to="/login" onClick={handleNavClick}>Login</Link>
+            <Link className="nav-link" to="/myorders" onClick={handleNavClick}>MyOrders</Link>
 
             {/* Theme Toggle */}
             <button
@@ -74,4 +82,3 @@ function Navbar({ cart, theme, toggleTheme }) {
 }
 
 export default Navbar;
-

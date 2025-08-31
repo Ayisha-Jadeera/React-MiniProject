@@ -1,27 +1,62 @@
 import React, { useState, useEffect } from "react";
 import { Card, Button, Row, Col, Container, Form } from "react-bootstrap";
-import { fetchMenuItems } from "../utils/fakeOrderApi";
+import { FaStar } from "react-icons/fa";
+
+// Star Rating Component
+function StarRating({ itemId, rating, onRate }) {
+  const [hover, setHover] = useState(0);
+
+  return (
+    <div className="mb-2">
+      {[...Array(5)].map((_, i) => {
+        const starValue = i + 1;
+        return (
+          <label key={i}>
+            <input
+              type="radio"
+              style={{ display: "none" }}
+              value={starValue}
+              onClick={() => onRate(itemId, starValue)}
+            />
+            <FaStar
+              size={20}
+              style={{ cursor: "pointer", marginRight: 4 }}
+              color={starValue <= (hover || rating) ? "#ffc107" : "#e4e5e9"}
+              onMouseEnter={() => setHover(starValue)}
+              onMouseLeave={() => setHover(0)}
+            />
+          </label>
+        );
+      })}
+    </div>
+  );
+}
 
 function Menu({ cart, setCart }) {
   const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  // Search & Category states
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  // ✅ Fetch from localStorage instead of static JSON
+  // Ratings state
+  const [ratings, setRatings] = useState({});
+
   useEffect(() => {
-    try {
-      const items = fetchMenuItems();
-      setMenuItems(items);
-      setLoading(false);
-    } catch (err) {
-      setError("Failed to load menu items");
-      setLoading(false);
-    }
+    // Load menu items from localStorage
+    const savedItems = JSON.parse(localStorage.getItem("menuItems")) || [];
+    setMenuItems(savedItems);
+    setLoading(false);
+
+    // Load ratings
+    const storedRatings = JSON.parse(localStorage.getItem("ratings")) || {};
+    setRatings(storedRatings);
   }, []);
+
+  // Persist ratings to localStorage
+  useEffect(() => {
+    localStorage.setItem("ratings", JSON.stringify(ratings));
+  }, [ratings]);
 
   const addToCart = (item) => {
     const exists = cart.find((cartItem) => cartItem.id === item.id);
@@ -38,7 +73,10 @@ function Menu({ cart, setCart }) {
     }
   };
 
-  // Filtering logic
+  const handleRate = (itemId, value) => {
+    setRatings((prev) => ({ ...prev, [itemId]: value }));
+  };
+
   const filteredItems = menuItems.filter((item) => {
     const matchesSearch = item.name
       ?.toLowerCase()
@@ -48,11 +86,9 @@ function Menu({ cart, setCart }) {
     return matchesSearch && matchesCategory;
   });
 
-  // Unique categories
   const categories = ["All", ...new Set(menuItems.map((item) => item.category))];
 
   if (loading) return <p className="text-center mt-4">Loading menu...</p>;
-  if (error) return <p className="text-center text-danger mt-4">{error}</p>;
 
   return (
     <div>
@@ -66,10 +102,7 @@ function Menu({ cart, setCart }) {
           height: "200px",
         }}
       >
-        <h1
-          className="fw-bold"
-          style={{ color: "#d8b0b0ff", padding: "10px 20px", borderRadius: "8px" }}
-        >
+        <h1 className="fw-bold" style={{ color: "#d8b0b0ff", padding: "10px 20px", borderRadius: "8px" }}>
           Our Menu
         </h1>
         <p className="text-white fs-5 fst-italic mt-2">
@@ -118,8 +151,15 @@ function Menu({ cart, setCart }) {
                   />
                   <Card.Body>
                     <Card.Title>{item.name}</Card.Title>
-                    <Card.Text>{item.description}</Card.Text>
                     <h5 className="text-success">₹{item.price}</h5>
+
+                    {/* Star Rating */}
+                    <StarRating
+                      itemId={item.id}
+                      rating={ratings[item.id] || 0}
+                      onRate={handleRate}
+                    />
+
                     <Button
                       variant="warning"
                       className="mt-2 w-100"
@@ -141,5 +181,4 @@ function Menu({ cart, setCart }) {
 }
 
 export default Menu;
-
 

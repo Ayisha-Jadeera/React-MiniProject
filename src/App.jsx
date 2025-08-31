@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Testimonials from "./components/Testimonials";
 
 
 import Home from "./pages/Home";
@@ -44,6 +45,8 @@ function App() {
             <Route path="*" element={<h1 className="text-center mt-5">404 - Page Not Found</h1>} />
           </Routes>
         </div>
+        
+        
 
         {/* Footer */}
         <Footer />

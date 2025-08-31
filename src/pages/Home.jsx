@@ -2,6 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import Testimonials from "../components/Testimonials";
+
 import "./Home.css";
 
 function Home() {
@@ -158,10 +160,12 @@ function Home() {
         </button>
 
 
-       
+      <Testimonials />
     </div>
 
     </main>
+
+
 
     
   );
