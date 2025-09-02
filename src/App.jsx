@@ -65,9 +65,12 @@ function App() {
           setUser={setUser}
         />
 
+        
+
         {/* Main Content */}
         <div className="flex-grow-1">
           <Routes>
+            
             <Route path="/" element={<Home />} />
 
             {/* Protected Routes */}
