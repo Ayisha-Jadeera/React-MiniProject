@@ -1,133 +1,91 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // <-- import useNavigate
+import { useNavigate } from "react-router-dom";
 
-export default function AuthForm() {
-  const navigate = useNavigate(); // <-- initialize navigate
-  const [isLogin, setIsLogin] = useState(true);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
+export default function Login({ onLoginSuccess }) {
+  const navigate = useNavigate();
+  const [phone, setPhone] = useState("");
+  const [otp, setOtp] = useState("");
+  const [sentOtp, setSentOtp] = useState(null);
+  const [step, setStep] = useState(1); // 1=phone, 2=OTP
   const [message, setMessage] = useState("");
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleSendOtp = () => {
+    if (!phone.match(/^\d{10}$/)) {
+      setMessage("❌ Enter a valid 10-digit mobile number.");
+      return;
+    }
+
+    // Generate OTP
+    const generatedOtp = Math.floor(100000 + Math.random() * 900000);
+    setSentOtp(generatedOtp);
+    console.log("Generated OTP:", generatedOtp); // show in console for testing
+    setStep(2);
+    setMessage(`✅ OTP sent to ${phone}`);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleVerifyOtp = () => {
+    if (parseInt(otp) === sentOtp) {
+      const userDetails = JSON.parse(localStorage.getItem("userDetails")) || [];
+      const existingUser = userDetails.find(u => u.phone === phone);
 
-    if (isLogin) {
-      if (!formData.email || !formData.password) {
-        setMessage("❌ Please enter email and password.");
-        return;
-      }
-      setMessage("✅ Login successful!");
+      const user = { phone };
+      onLoginSuccess(user);
+      localStorage.setItem("user", JSON.stringify(user));
 
-      // Redirect to menu after 1 second
-      setTimeout(() => {
+      if (existingUser) {
+        // Existing customer → go directly to Menu
         navigate("/menu");
-      }, 1000);
+      } else {
+        // New customer → redirect to signup/details page
+        navigate("/user-details");
+      }
     } else {
-      if (!formData.name || !formData.email || !formData.password) {
-        setMessage("❌ Please fill all fields to sign up.");
-        return;
-      }
-      setMessage("✅ Account created successfully!");
-
-      // Redirect to menu after 1 second
-      setTimeout(() => {
-        navigate("/menu");
-      }, 1000);
+      setMessage("❌ Invalid OTP. Try again.");
     }
   };
 
   return (
-    <div
-      className="d-flex justify-content-center align-items-center vh-100"
-      style={{
-        backgroundImage: "url('/images/bglogin.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        height: "100vh",
-        width: "100%",
-      }}
-    >
-      <div
-        className="card shadow p-4"
-        style={{
-          color: "black",
-          width: "380px",
-          borderRadius: "20px",
-          backgroundColor: "rgba(255, 255, 255, 0.3)",
-        }}
-      >
-        <h2 className="text-center mb-4">
-          {isLogin ? "Customer Login" : "Sign Up"}
-        </h2>
+    <div className="d-flex justify-content-center align-items-center vh-100">
+      <div className="card p-4" style={{ minWidth: "300px" }}>
+        <h2 className="mb-3">Customer Login</h2>
 
-        <form onSubmit={handleSubmit}>
-          {!isLogin && (
-            <div className="mb-3">
-              <label className="form-label">Full Name</label>
-              <input
-                type="text"
-                name="name"
-                className="form-control"
-                placeholder="Enter your name"
-                value={formData.name}
-                onChange={handleChange}
-              />
-            </div>
-          )}
-
-          <div className="mb-3">
-            <label className="form-label">Email</label>
+        {step === 1 && (
+          <>
             <input
-              type="email"
-              name="email"
-              className="form-control"
-              placeholder="Enter your email"
-              value={formData.email}
-              onChange={handleChange}
-              required
+              type="text"
+              placeholder="Enter mobile number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              className="form-control mb-3"
             />
-          </div>
+            <button className="btn btn-primary w-100" onClick={handleSendOtp}>
+              Send OTP
+            </button>
+          </>
+        )}
 
-          <div className="mb-3">
-            <label className="form-label">Password</label>
+        {step === 2 && (
+          <>
+            <p className="text-center">OTP sent to {phone}</p>
             <input
-              type="password"
-              name="password"
-              className="form-control"
-              placeholder="Enter your password"
-              value={formData.password}
-              onChange={handleChange}
-              required
+              type="text"
+              placeholder={`Enter OTP (for testing: ${sentOtp})`}
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              className="form-control mb-3"
             />
-          </div>
+            <button className="btn btn-success w-100" onClick={handleVerifyOtp}>
+              Verify OTP
+            </button>
+            <button className="btn btn-link mt-2" onClick={() => setStep(1)}>
+              Resend OTP
+            </button>
+          </>
+        )}
 
-          <button type="submit" className="btn btn-primary w-100">
-            {isLogin ? "Login" : "Sign Up"}
-          </button>
-        </form>
-
-        {message && <p className="text-center mt-3">{message}</p>}
-
-        <p className="text-center mt-3">
-          {isLogin ? "Don’t have an account?" : "Already have an account?"}{" "}
-          <button
-            className="btn btn-link p-0"
-            onClick={() => {
-              setIsLogin(!isLogin);
-              setMessage("");
-            }}
-          >
-            {isLogin ? "Sign Up" : "Login"}
-          </button>
-        </p>
+        {message && <p className="text-center mt-2">{message}</p>}
       </div>
     </div>
   );
 }
+

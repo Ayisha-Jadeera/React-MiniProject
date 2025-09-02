@@ -1,6 +1,8 @@
 // src/components/Testimonials.jsx
 import React, { useState, useEffect } from "react";
 import { Container, Carousel, Row, Col, Form, Button } from "react-bootstrap";
+import "./Testimonials.css";
+
 
 // ⭐ Reusable Star Rating Component
 const StarRating = ({ rating, setRating }) => {

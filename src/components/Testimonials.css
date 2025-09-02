@@ -1,0 +1,13 @@
+/* Light mode */
+.review-card {
+  background-color: #ffffff;
+  color: #212529;
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+}
+
+/* Dark mode */
+body.dark-mode .review-card {
+  background-color: #1e1e1e;
+  color: #f8f9fa;
+}

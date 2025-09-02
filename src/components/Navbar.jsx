@@ -1,11 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import logo from "/images/logo.png";
 import "./Navbar.css";
 
-function Navbar({ cart, theme, toggleTheme }) {
+function Navbar({ cart, theme, toggleTheme, user, setUser }) {
+  const navigate = useNavigate();
+
   // Total quantity in cart
   const totalItems = cart.reduce((acc, item) => acc + item.qty, 0);
 
@@ -15,6 +17,13 @@ function Navbar({ cart, theme, toggleTheme }) {
     if (navbar && navbar.classList.contains("show")) {
       new window.bootstrap.Collapse(navbar).hide();
     }
+  };
+
+  // Logout function
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem("user");
+    navigate("/"); // redirect to Home
   };
 
   return (
@@ -64,8 +73,23 @@ function Navbar({ cart, theme, toggleTheme }) {
               )}
             </Link>
 
-            <Link className="nav-link" to="/login" onClick={handleNavClick}>Login</Link>
-            <Link className="nav-link" to="/myorders" onClick={handleNavClick}>MyOrders</Link>
+            {/* MyOrders (only for logged-in users) */}
+            {user && (
+              <Link className="nav-link" to="/myorders" onClick={handleNavClick}>
+                MyOrders
+              </Link>
+            )}
+
+            {/* Login/Logout Button */}
+            {!user ? (
+              <Link className="btn btn-sm btn-primary ms-3" to="/login" onClick={handleNavClick}>
+                Login
+              </Link>
+            ) : (
+              <button className="btn btn-sm btn-danger ms-3" onClick={handleLogout}>
+                Logout
+              </button>
+            )}
 
             {/* Theme Toggle */}
             <button
@@ -82,4 +106,6 @@ function Navbar({ cart, theme, toggleTheme }) {
 }
 
 export default Navbar;
+
+
 
