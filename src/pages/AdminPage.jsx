@@ -23,13 +23,13 @@ function AdminPage() {
   return (
     <div className="container mt-5">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h1>Welcome, Admin!</h1>
+        <h1 style={{color :"gray"}}>Welcome, Admin!</h1>
         <button className="btn btn-danger" onClick={handleLogout}>
           Logout
         </button>
       </div>
 
-      <p>You can manage orders and menu items here.</p>
+      <p style={{color:"GrayText"}}>You can manage orders and menu items here.</p>
 
       {/* Admin Components */}
       <AdminMenu />

@@ -1,3 +1,4 @@
+// src/components/Navbar.jsx
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -8,10 +9,8 @@ import "./Navbar.css";
 function Navbar({ cart, theme, toggleTheme, user, setUser }) {
   const navigate = useNavigate();
 
-  // Total quantity in cart
   const totalItems = cart.reduce((acc, item) => acc + item.qty, 0);
 
-  // Collapse menu after clicking a link
   const handleNavClick = () => {
     const navbar = document.getElementById("navbarNav");
     if (navbar && navbar.classList.contains("show")) {
@@ -19,12 +18,20 @@ function Navbar({ cart, theme, toggleTheme, user, setUser }) {
     }
   };
 
-  // Logout function
+  // Normal user logout
   const handleLogout = () => {
     setUser(null);
     localStorage.removeItem("user");
     navigate("/"); // redirect to Home
   };
+
+  // Admin logout
+  const handleAdminLogout = () => {
+    sessionStorage.removeItem("adminLoggedIn");
+    navigate("/admin-login");
+  };
+
+  const isAdminLoggedIn = sessionStorage.getItem("adminLoggedIn");
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-black px-3 sticky-top shadow">
@@ -60,7 +67,7 @@ function Navbar({ cart, theme, toggleTheme, user, setUser }) {
             <Link className="nav-link" to="/about" onClick={handleNavClick}>About</Link>
             <Link className="nav-link" to="/contact" onClick={handleNavClick}>Contact</Link>
 
-            {/* Cart link with badge */}
+            {/* Cart link */}
             <Link className="nav-link position-relative" to="/cart" onClick={handleNavClick}>
               🛒 Cart
               {totalItems > 0 && (
@@ -80,7 +87,16 @@ function Navbar({ cart, theme, toggleTheme, user, setUser }) {
               </Link>
             )}
 
-            {/* Login/Logout Button */}
+            {/* Admin Button (always visible) */}
+            <Link
+              className={`btn btn-sm ms-3 ${isAdminLoggedIn ? "btn-danger" : "btn-secondary"}`}
+              to={isAdminLoggedIn ? "#" : "/admin-login"}
+              onClick={isAdminLoggedIn ? handleAdminLogout : handleNavClick}
+            >
+              {isAdminLoggedIn ? " 🔒" : "⚙️"}
+            </Link>
+
+            {/* Normal Login/Logout */}
             {!user ? (
               <Link className="btn btn-sm btn-primary ms-3" to="/login" onClick={handleNavClick}>
                 Login
@@ -106,6 +122,8 @@ function Navbar({ cart, theme, toggleTheme, user, setUser }) {
 }
 
 export default Navbar;
+
+
 
 
 

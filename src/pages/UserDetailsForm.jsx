@@ -7,6 +7,7 @@ export default function UserDetailsForm({ user, onSubmit }) {
   const [location, setLocation] = useState("");
   const [message, setMessage] = useState("");
 
+  // ✅ Get current geolocation
   const handleUseCurrentLocation = () => {
     if (!navigator.geolocation) {
       setMessage("Geolocation not supported by your browser.");
@@ -26,6 +27,7 @@ export default function UserDetailsForm({ user, onSubmit }) {
     );
   };
 
+  // ✅ Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name || !location) {
@@ -33,13 +35,35 @@ export default function UserDetailsForm({ user, onSubmit }) {
       return;
     }
 
-    // Save new user details in localStorage
-    const userDetails = JSON.parse(localStorage.getItem("userDetails")) || [];
+    // Safely parse localStorage
+    let userDetails = [];
+    const stored = localStorage.getItem("userDetails");
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        userDetails = Array.isArray(parsed) ? parsed : [];
+      } catch {
+        userDetails = [];
+      }
+    }
+
+    // Check if user already exists
+    const existingIndex = userDetails.findIndex(u => u.phone === user.phone);
     const newUser = { phone: user.phone, name, location };
-    userDetails.push(newUser);
+
+    if (existingIndex !== -1) {
+      userDetails[existingIndex] = newUser; // update existing
+    } else {
+      userDetails.push(newUser); // add new
+    }
+
+    // Save to localStorage
     localStorage.setItem("userDetails", JSON.stringify(userDetails));
 
-    onSubmit(newUser); // update App state
+    // Update parent App state
+    onSubmit(newUser);
+
+    // Navigate to Menu
     navigate("/menu");
   };
 
@@ -56,6 +80,7 @@ export default function UserDetailsForm({ user, onSubmit }) {
               placeholder="Enter your name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              required
             />
           </div>
 
@@ -67,6 +92,7 @@ export default function UserDetailsForm({ user, onSubmit }) {
               placeholder="Enter location or use current"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
+              required
             />
             <button
               type="button"
@@ -86,4 +112,5 @@ export default function UserDetailsForm({ user, onSubmit }) {
     </div>
   );
 }
+
 

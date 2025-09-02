@@ -6,41 +6,54 @@ export default function Login({ onLoginSuccess }) {
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [sentOtp, setSentOtp] = useState(null);
-  const [step, setStep] = useState(1); // 1=phone, 2=OTP
+  const [step, setStep] = useState(1); // 1=phone input, 2=OTP
   const [message, setMessage] = useState("");
 
+  // ✅ Send OTP
   const handleSendOtp = () => {
     if (!phone.match(/^\d{10}$/)) {
       setMessage("❌ Enter a valid 10-digit mobile number.");
       return;
     }
 
-    // Generate OTP
     const generatedOtp = Math.floor(100000 + Math.random() * 900000);
     setSentOtp(generatedOtp);
-    console.log("Generated OTP:", generatedOtp); // show in console for testing
+    console.log("Generated OTP:", generatedOtp); // for testing
     setStep(2);
     setMessage(`✅ OTP sent to ${phone}`);
   };
 
+  // ✅ Verify OTP
   const handleVerifyOtp = () => {
-    if (parseInt(otp) === sentOtp) {
-      const userDetails = JSON.parse(localStorage.getItem("userDetails")) || [];
-      const existingUser = userDetails.find(u => u.phone === phone);
-
-      const user = { phone };
-      onLoginSuccess(user);
-      localStorage.setItem("user", JSON.stringify(user));
-
-      if (existingUser) {
-        // Existing customer → go directly to Menu
-        navigate("/menu");
-      } else {
-        // New customer → redirect to signup/details page
-        navigate("/user-details");
-      }
-    } else {
+    if (parseInt(otp) !== sentOtp) {
       setMessage("❌ Invalid OTP. Try again.");
+      return;
+    }
+
+    // Get userDetails safely
+    let userDetails = [];
+    const stored = localStorage.getItem("userDetails");
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        userDetails = Array.isArray(parsed) ? parsed : [];
+      } catch {
+        userDetails = [];
+      }
+    }
+
+    const existingUser = userDetails.find(u => u.phone === phone);
+
+    const user = { phone };
+    onLoginSuccess(user);
+    localStorage.setItem("user", JSON.stringify(user));
+
+    if (existingUser) {
+      // Existing user → go directly to Menu
+      navigate("/menu");
+    } else {
+      // New user → go to details/signup page
+      navigate("/user-details");
     }
   };
 
