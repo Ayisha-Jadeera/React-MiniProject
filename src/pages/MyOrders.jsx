@@ -1,115 +1,176 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Form } from "react-bootstrap";
+import { FaStar } from "react-icons/fa";
 
-function MyOrders() {
+function MyOrders({ theme }) {
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [rating, setRating] = useState(0);
+  const [hover, setHover] = useState(0);
+  const [comment, setComment] = useState("");
 
+  // Load only last 2 orders from localStorage
   useEffect(() => {
     const savedOrders = JSON.parse(localStorage.getItem("orders")) || [];
-    setOrders(savedOrders);
+    setOrders(savedOrders.slice(-2));
   }, []);
 
+  // Save last 2 orders back to localStorage
+  const saveOrders = (newOrders) => {
+    const lastTwo = newOrders.slice(-2);
+    localStorage.setItem("orders", JSON.stringify(lastTwo));
+    setOrders(lastTwo);
+  };
+
+  // Mark an order as delivered
+  const markDelivered = (orderId) => {
+    const updated = orders.map((order) =>
+      order.id === orderId ? { ...order, status: "Delivered" } : order
+    );
+    saveOrders(updated);
+  };
+
+  // Submit review for a delivered order
+  const submitReview = () => {
+    if (!selectedOrder) return;
+
+    const updatedOrders = orders.map((order) =>
+      order.id === selectedOrder.id
+        ? {
+            ...order,
+            review: { rating, comment },
+          }
+        : order
+    );
+
+    saveOrders(updatedOrders);
+
+    // Save review to related menu item
+    const menuItems = JSON.parse(localStorage.getItem("menuItems")) || [];
+    selectedOrder.items.forEach((orderedItem) => {
+      const itemIndex = menuItems.findIndex((i) => i.id === orderedItem.id);
+      if (itemIndex !== -1) {
+        if (!menuItems[itemIndex].reviews) menuItems[itemIndex].reviews = [];
+        menuItems[itemIndex].reviews.push({ rating, comment });
+      }
+    });
+    localStorage.setItem("menuItems", JSON.stringify(menuItems));
+
+    // Reset form
+    setRating(0);
+    setHover(0);
+    setComment("");
+    setSelectedOrder(null);
+  };
+
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        width: "100vw",
-        backgroundImage: "url('/images/orderbg.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        padding: "20px",
-        display: "flex",
-        justifyContent: "center",
-      }}
-    >
-      <div className="container">
-        <h2 className="fw-bold text-center mb-4 text-danger">📦 My Orders</h2>
+    <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
+      <h2 className="mb-4">My Orders</h2>
 
-        {orders.length === 0 ? (
-          <p className="fs-5 text-center text-muted">You have no orders yet.</p>
-        ) : (
-          <div className="row g-4">
-            {orders.map((order, index) => (
-              <div key={index} className="col-12 col-md-6 col-lg-4">
-                <div className="card shadow h-100">
-                  <div className="card-body d-flex flex-column">
-                    <h5 className="card-title text-success">Order #{index + 1}</h5>
-                    <p className="text-muted small mb-1">Date: {order.date}</p>
-                    <p className="text-muted small mb-3">Payment: {order.customer.payment}</p>
+      {orders.length === 0 ? (
+        <p className="text-muted">No recent orders.</p>
+      ) : (
+        orders.map((order, index) => (
+          <div
+            key={index}
+            className={`p-3 mb-3 rounded shadow-sm ${
+              theme === "dark"
+                ? "bg-dark text-light border border-light"
+                : "bg-white text-dark border border-secondary"
+            }`}
+          >
+            <h5>Order #{order.id}</h5>
+            <p>Status: {order.status}</p>
+            <p>Total: ₹{order.total}</p>
 
-                    <ul className="list-group mb-3">
-                      {order.items.map((item) => (
-                        <li
-                          key={item.id}
-                          className="list-group-item d-flex justify-content-between align-items-center"
-                        >
-                          {item.name} × {item.qty} <span>₹{item.price * item.qty}</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <h6 className="fw-bold text-dark mb-3">Total: ₹{order.total}</h6>
-                    <Button
-                      variant="primary"
-                      onClick={() => setSelectedOrder(order)}
-                      className="mt-auto"
-                    >
-                      View Details
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Modal */}
-        <Modal show={!!selectedOrder} onHide={() => setSelectedOrder(null)} centered>
-          <Modal.Header closeButton>
-            <Modal.Title>Order Details</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            {selectedOrder && (
-              <>
-                <h6 className="fw-bold">Customer Info</h6>
-                <p>
-                  <strong>Name:</strong> {selectedOrder.customer.name} <br />
-                  <strong>Phone:</strong> {selectedOrder.customer.phone} <br />
-                  <strong>Address:</strong> {selectedOrder.customer.address}
-                </p>
-
-                <h6 className="fw-bold">Items</h6>
-                <ul className="list-group mb-3">
-                  {selectedOrder.items.map((item) => (
-                    <li
-                      key={item.id}
-                      className="list-group-item d-flex justify-content-between"
-                    >
-                      {item.name} × {item.qty} <span>₹{item.price * item.qty}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <p>
-                  <strong>Payment Method:</strong> {selectedOrder.customer.payment} <br />
-                  <strong>Total:</strong> ₹{selectedOrder.total} <br />
-                  <strong>Date:</strong> {selectedOrder.date}
-                </p>
-              </>
+            {order.status === "Delivered" && !order.review && (
+              <Button
+                size="sm"
+                variant="info"
+                onClick={() => setSelectedOrder(order)}
+              >
+                Add Review
+              </Button>
             )}
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => setSelectedOrder(null)}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </div>
+
+            {order.review && (
+              <div style={{ marginTop: "10px" }}>
+                <strong>Your Review:</strong>
+                <div>
+                  {[...Array(5)].map((star, i) => (
+                    <FaStar
+                      key={i}
+                      color={i < order.review.rating ? "gold" : "lightgray"}
+                    />
+                  ))}
+                </div>
+                <p>{order.review.comment}</p>
+              </div>
+            )}
+
+            {order.status !== "Delivered" && (
+              <Button
+                size="sm"
+                variant="success"
+                onClick={() => markDelivered(order.id)}
+              >
+                Mark Delivered
+              </Button>
+            )}
+          </div>
+        ))
+      )}
+
+      {/* Review Modal */}
+      <Modal show={!!selectedOrder} onHide={() => setSelectedOrder(null)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Add Review</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="mb-3">
+            <strong>Rate this order:</strong>
+            <div>
+              {[...Array(5)].map((star, i) => {
+                const ratingValue = i + 1;
+                return (
+                  <FaStar
+                    key={i}
+                    size={24}
+                    color={ratingValue <= (hover || rating) ? "gold" : "lightgray"}
+                    onClick={() => setRating(ratingValue)}
+                    onMouseEnter={() => setHover(ratingValue)}
+                    onMouseLeave={() => setHover(0)}
+                    style={{ cursor: "pointer" }}
+                  />
+                );
+              })}
+            </div>
+          </div>
+
+          <Form.Group>
+            <Form.Label>Write a comment</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            />
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setSelectedOrder(null)}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={submitReview} disabled={rating === 0}>
+            Submit Review
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
 
 export default MyOrders;
+
 
 

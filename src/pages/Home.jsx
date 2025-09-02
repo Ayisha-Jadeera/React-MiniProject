@@ -11,6 +11,7 @@ function Home() {
 
   return (
     <main>
+      {/* ✅ Hero Section */}
       <section
         id="hero"
         style={{
@@ -28,7 +29,6 @@ function Home() {
           color: "white",
         }}
       >
-      
         <div
           style={{
             position: "absolute",
@@ -41,7 +41,6 @@ function Home() {
           }}
         ></div>
 
-     
         <div
           style={{
             position: "relative",
@@ -59,7 +58,6 @@ function Home() {
             From sizzling pizzas to juicy momos, we bring flavors from your favorite kitchens straight to your doorstep.
           </p>
 
-        
           <button
             style={{
               padding: "14px 30px",
@@ -82,10 +80,8 @@ function Home() {
         </div>
       </section>
 
-
+      {/* ✅ Food Carousel */}
       <div id="foodCarousel" className="carousel slide mb-6" data-bs-ride="carousel" data-bs-interval="3000">
-        
-      
         <div className="carousel-indicators">
           <button type="button" data-bs-target="#foodCarousel" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
           <button type="button" data-bs-target="#foodCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -94,13 +90,10 @@ function Home() {
           <button type="button" data-bs-target="#foodCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
         </div>
 
-    
         <div className="carousel-inner rounded shadow">
-
           {/* Pizza */}
-
           <div className="carousel-item active">
-            <img src="images/pizza.jpg" className="d-block w-100" alt="Pizza"  style = {{height:"570px" , width:"100%" , objectFit :"contain"}}/>
+            <img src="images/pizza.jpg" className="d-block w-100" alt="Pizza" style={{height:"570px", width:"100%", objectFit:"contain"}}/>
             <div className="carousel-caption d-none d-md-block">
               <h5>Delicious Pizza</h5>
               <p>Try our special Margherita Pizza today.</p>
@@ -108,9 +101,8 @@ function Home() {
           </div>
 
           {/* Burger */}
-
-          <div className="carousel-item" style = {{backgroundColor:"#000"}}>
-            <img src="images/Burger.jpg" className="d-block w-100 bg-dark" alt="Burger" style =  {{height:"570px" , width:"100%" , objectFit :"contain"}}/>
+          <div className="carousel-item" style={{backgroundColor:"#000"}}>
+            <img src="images/Burger.jpg" className="d-block w-100 bg-dark" alt="Burger" style={{height:"570px", width:"100%", objectFit:"contain"}}/>
             <div className="carousel-caption d-none d-md-block">
               <h5>Juicy Burgers</h5>
               <p>Freshly made veggie burgers just for you.</p>
@@ -118,9 +110,8 @@ function Home() {
           </div>
 
           {/* Pasta */}
-
           <div className="carousel-item">
-            <img src="images/creamy-pastha.jpg" className="d-block w-100" alt="Pasta" style =  {{height:"570px" , width:"100%" , objectFit :"contain"}}/>
+            <img src="images/creamy-pastha.jpg" className="d-block w-100" alt="Pasta" style={{height:"570px", width:"100%", objectFit:"contain"}}/>
             <div className="carousel-caption d-none d-md-block">
               <h5>Creamy Pasta</h5>
               <p>Indulge in our creamy Alfredo Pasta.</p>
@@ -128,9 +119,8 @@ function Home() {
           </div>
 
           {/* Steamed Momos */}
-
           <div className="carousel-item">
-            <img src="images/momoimg1.jpg" className="d-block w-100" alt="Steamed Momos" style =  {{height:"570px" , width:"100%" , objectFit :"contain"}}/>
+            <img src="images/momoimg1.jpg" className="d-block w-100" alt="Steamed Momos" style={{height:"570px", width:"100%", objectFit:"contain"}}/>
             <div className="carousel-caption d-none d-md-block">
               <h5>Steamed Momos</h5>
               <p>Hot & fresh momos served with spicy chutney.</p>
@@ -138,9 +128,8 @@ function Home() {
           </div>
 
           {/* Fried Momos */}
-
           <div className="carousel-item">
-            <img src="images/friedmomo.jpg" className="d-block w-100" alt="Fried Momos" style = {{height:"570px" , width:"100%" , objectFit :"contain"}}/>
+            <img src="images/friedmomo.jpg" className="d-block w-100" alt="Fried Momos" style={{height:"570px", width:"100%", objectFit:"contain"}}/>
             <div className="carousel-caption d-none d-md-block">
               <h5>Crispy Fried Momos</h5>
               <p>Golden fried momos for a crunchy delight.</p>
@@ -149,7 +138,6 @@ function Home() {
         </div>
 
         {/* Controls */}
-
         <button className="carousel-control-prev" type="button" data-bs-target="#foodCarousel" data-bs-slide="prev">
           <span className="carousel-control-prev-icon" aria-hidden="true"></span>
           <span className="visually-hidden">Previous</span>
@@ -158,17 +146,12 @@ function Home() {
           <span className="carousel-control-next-icon" aria-hidden="true"></span>
           <span className="visually-hidden">Next</span>
         </button>
+      </div>
 
-
+      {/* ✅ Testimonials Section (below carousel) */}
       <Testimonials />
-    </div>
-
     </main>
-
-
-
-    
   );
 }
 
-export default Home
+export default Home;

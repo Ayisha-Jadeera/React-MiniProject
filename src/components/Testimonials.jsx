@@ -1,9 +1,8 @@
 // src/components/Testimonials.jsx
 import React, { useState, useEffect } from "react";
 import { Container, Carousel, Row, Col, Form, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 
-// Star rating component
+// ⭐ Reusable Star Rating Component
 const StarRating = ({ rating, setRating }) => {
   return (
     <div>
@@ -14,8 +13,9 @@ const StarRating = ({ rating, setRating }) => {
           style={{
             cursor: "pointer",
             color: star <= rating ? "#ffc107" : "#e4e5e9",
-            fontSize: "1.5rem",
+            fontSize: "1.6rem",
             marginRight: "5px",
+            transition: "color 0.2s ease",
           }}
         >
           ★
@@ -26,23 +26,23 @@ const StarRating = ({ rating, setRating }) => {
 };
 
 const Testimonials = () => {
-  const navigate = useNavigate();
   const [reviews, setReviews] = useState([]);
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [rating, setRating] = useState(0);
 
-  // Load existing reviews from localStorage
+  // ✅ Load reviews once on mount
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("testimonials")) || [];
     setReviews(saved);
   }, []);
 
-  // Submit review
+  // ✅ Submit review
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!name || !message || rating === 0) {
-      alert("Please fill all fields and select a rating!");
+
+    if (!name.trim() || !message.trim() || rating === 0) {
+      alert("⚠️ Please fill all fields and select a rating!");
       return;
     }
 
@@ -55,19 +55,16 @@ const Testimonials = () => {
     };
 
     const updatedReviews = [newReview, ...reviews];
-    setReviews(updatedReviews);
     localStorage.setItem("testimonials", JSON.stringify(updatedReviews));
+    setReviews(updatedReviews);
 
-    // Reset form
+    // reset form
     setName("");
     setMessage("");
     setRating(0);
-
-    // Redirect to menu page
-    navigate("/menu");
   };
 
-  // Helper to chunk reviews for carousel slides
+  // ✅ Split reviews into groups of 3 for carousel
   const chunkArray = (arr, size) => {
     const result = [];
     for (let i = 0; i < arr.length; i += size) {
@@ -76,26 +73,31 @@ const Testimonials = () => {
     return result;
   };
 
-  const reviewChunks = chunkArray(reviews, 3); // 3 reviews per slide
+  const reviewChunks = chunkArray(reviews, 3);
 
   return (
     <Container className="my-5" id="testimonials">
-      <h2 className="text-center mb-4">Customer Reviews</h2>
+      <h2 className="text-center mb-4">⭐ Customer Reviews</h2>
 
-      {reviews.length > 0 && (
-        <Carousel indicators={false} interval={5000}>
+      {/* ✅ Show reviews if available */}
+      {reviews.length > 0 ? (
+        <Carousel indicators={false} interval={6000}>
           {reviewChunks.map((chunk, idx) => (
             <Carousel.Item key={idx}>
               <Row>
                 {chunk.map((r) => (
                   <Col md={4} key={r.id}>
-                    <div className="p-3 m-2 border rounded shadow text-center" style={{ color: "#f9e9e9ff" }} >
-                      <h5>{r.name}</h5>
-                      <div>
+                    {/* ✅ Use custom review-card class */}
+                    <div className="review-card p-3 m-2 border rounded shadow-sm text-center">
+                      <h5 className="mb-1">{r.name}</h5>
+                      <div className="mb-2">
                         {[1, 2, 3, 4, 5].map((s) => (
                           <span
                             key={s}
-                            style={{ color: s <= r.rating ? "#ffc107" : "#e4e5e9" }}
+                            style={{
+                              color: s <= r.rating ? "#ffc107" : "#e4e5e9",
+                              fontSize: "1.2rem",
+                            }}
                           >
                             ★
                           </span>
@@ -110,8 +112,11 @@ const Testimonials = () => {
             </Carousel.Item>
           ))}
         </Carousel>
+      ) : (
+        <p className="text-center text-muted">No reviews yet. Be the first!</p>
       )}
 
+      {/* ✅ Review form */}
       <h4 className="mt-5 mb-3">Leave a Review</h4>
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-2">
@@ -120,6 +125,7 @@ const Testimonials = () => {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            placeholder="Enter your name"
             required
           />
         </Form.Group>
@@ -131,6 +137,7 @@ const Testimonials = () => {
             rows={3}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            placeholder="Write your feedback..."
             required
           />
         </Form.Group>
@@ -140,7 +147,7 @@ const Testimonials = () => {
           <StarRating rating={rating} setRating={setRating} />
         </Form.Group>
 
-        <Button type="submit" className="mt-2">
+        <Button type="submit" variant="primary" className="mt-2">
           Submit Review
         </Button>
       </Form>
@@ -149,6 +156,10 @@ const Testimonials = () => {
 };
 
 export default Testimonials;
+
+
+
+
 
 
 

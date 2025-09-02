@@ -82,3 +82,4 @@ function Navbar({ cart, theme, toggleTheme }) {
 }
 
 export default Navbar;
+

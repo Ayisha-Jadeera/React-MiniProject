@@ -18,8 +18,9 @@ function About() {
             </h2>
             <p className="text-center mb-5 fs-6 fs-md-5">
               Welcome to <b style={{ color: "orange" }}>Parche Food Ordering App</b> – your
-              one-stop destination for delicious meals delivered fast and fresh! Whether
-              you're craving spicy momos, cheesy pizzas, or FriedRice, we’ve got you covered.
+              one-stop destination for delicious meals delivered fast and fresh!
+              Whether you're craving spicy momos, cheesy pizzas, or FriedRice,
+              we’ve got you covered.
             </p>
             <div className="row">
               <div className="col-md-6 mb-4">
@@ -33,8 +34,14 @@ function About() {
               </div>
               <div className="col-md-6">
                 <h4>Our Mission</h4>
-                <p>To bring happiness to every foodie by delivering hot, fresh, and tasty meals with love 💖.</p>
-                <p>From our food truck to your dining table – we aim to create unforgettable flavors of tomorrow. 🌟</p>
+                <p>
+                  To bring happiness to every foodie by delivering hot, fresh,
+                  and tasty meals with love 💖.
+                </p>
+                <p>
+                  From our food truck to your dining table – we aim to create
+                  unforgettable flavors of tomorrow. 🌟
+                </p>
               </div>
             </div>
           </div>
@@ -42,56 +49,26 @@ function About() {
       </div>
 
       {/* Facilities Section */}
-      <div className="facilities-section py-5 bg-dark text-light">
+      <div className="facilities-section py-5 section-theme">
         <div className="container">
           <h2 className="text-center mb-4" style={{ color: "green" }}>
             Our <span className="highlight">Facilities</span>
           </h2>
 
           <div className="row g-4">
-            {/* Repeat each card */}
             {[
-              {
-                title: "Service Options",
-                items: ["Outdoor seating", "Kerbside pickup", "No-contact delivery", "Delivery", "Drive-through", "Takeaway", "Dine-in"],
-              },
-              {
-                title: "Highlights",
-                items: ["Great dessert", "Great tea selection"],
-                extraTitle: "Popular For",
-                extraItems: ["Dinner", "Solo dining"],
-              },
-              {
-                title: "Offerings",
-                items: ["All you can eat", "Coffee", "Halal food", "Happy-hour drinks & food", "Late-night food", "Quick bite", "Small plates", "Variety of dishes"],
-              },
-              {
-                title: "Dining Options",
-                items: ["Brunch", "Dinner", "Dessert", "Seating & Table Service"],
-              },
-              {
-                title: "Amenities & Atmosphere",
-                items: ["Restroom", "Casual", "Cozy", "Trendy", "Upmarket"],
-              },
-              {
-                title: "Crowd & Planning",
-                items: ["Family friendly", "Groups & Tourists", "University students", "Usually a wait", "Accepts reservations"],
-              },
-              {
-                title: "Payments",
-                items: ["Credit cards", "Debit cards", "NFC mobile payments"],
-              },
-              {
-                title: "Children",
-                items: ["Good for kids", "Kids birthday friendly"],
-              },
-              {
-                title: "Parking",
-                items: ["Free parking lot", "Free street parking", "Plenty of parking"],
-              },
+              { title: "Service Options", items: ["Outdoor seating", "Kerbside pickup", "No-contact delivery", "Delivery", "Drive-through", "Takeaway", "Dine-in"] },
+              { title: "Highlights", items: ["Great dessert", "Great tea selection"], extraTitle: "Popular For", extraItems: ["Dinner", "Solo dining"] },
+              { title: "Offerings", items: ["All you can eat", "Coffee", "Halal food", "Happy-hour drinks & food", "Late-night food", "Quick bite", "Small plates", "Variety of dishes"] },
+              { title: "Dining Options", items: ["Brunch", "Dinner", "Dessert", "Seating & Table Service"] },
+              { title: "Amenities & Atmosphere", items: ["Restroom", "Casual", "Cozy", "Trendy", "Upmarket"] },
+              { title: "Crowd & Planning", items: ["Family friendly", "Groups & Tourists", "University students", "Usually a wait", "Accepts reservations"] },
+              { title: "Payments", items: ["Credit cards", "Debit cards", "NFC mobile payments"] },
+              { title: "Children", items: ["Good for kids", "Kids birthday friendly"] },
+              { title: "Parking", items: ["Free parking lot", "Free street parking", "Plenty of parking"] },
             ].map((card, idx) => (
               <div key={idx} className="col-12 col-md-4">
-                <div className="p-3 bg-white shadow rounded h-100 text-dark">
+                <div className="p-3 shadow rounded h-100 card-theme">
                   <h5>{card.title}</h5>
                   <ul className="list-unstyled">
                     {card.items.map((item, i) => (
@@ -116,9 +93,11 @@ function About() {
       </div>
 
       {/* Team Section */}
-      <div className="team-section py-5 bg-light">
+      <div className="team-section py-5 section-theme">
         <div className="container">
-          <h2 className="text-center mb-4">Meet Our <span className="highlight">Team</span></h2>
+          <h2 className="text-center mb-4">
+            Meet Our <span className="highlight">Team</span>
+          </h2>
           <div className="row text-center">
             {[
               { name: "Javi", role: "Founder & CEO", img: "images/team2.jpg" },
@@ -145,3 +124,4 @@ function About() {
 }
 
 export default About;
+

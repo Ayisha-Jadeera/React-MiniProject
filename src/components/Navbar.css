@@ -45,3 +45,10 @@
   color: #ff9800 !important;      /* orange for active page */
   font-weight: 600;
 }
+[data-bs-theme="dark"] .navbar .nav-link {
+  color: #ffffff !important;
+  background-color: black !important;
+}
+[data-bs-theme="light"] .navbar .nav-link {
+  color: #f6e3e3 !important;
+}

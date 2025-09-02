@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import Testimonials from "./components/Testimonials";
-
 
 import Home from "./pages/Home";
 import Menu from "./pages/Menu";
@@ -16,16 +14,21 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminPage from "./pages/AdminPage";
 import MyOrders from "./pages/MyOrders";
 
-
 function App() {
   const [cart, setCart] = useState([]);
   const [theme, setTheme] = useState("light");
+
+  // 🔥 Apply theme to <html> element instead of div
+  useEffect(() => {
+    document.documentElement.setAttribute("data-bs-theme", theme);
+  }, [theme]);
 
   const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
 
   return (
     <Router>
-      <div data-bs-theme={theme} className="min-vh-100 d-flex flex-column">
+      <div className={` ${theme}-mode min-vh-100 d-flex flex-column`}>
+
         {/* Navbar */}
         <Navbar cart={cart} theme={theme} toggleTheme={toggleTheme} />
 
@@ -33,7 +36,10 @@ function App() {
         <div className="flex-grow-1">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/menu" element={<Menu cart={cart} setCart={setCart} />} />
+            <Route
+              path="/menu"
+              element={<Menu cart={cart} setCart={setCart} />}
+            />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/cart" element={<Cart cart={cart} setCart={setCart} theme={theme} />} />
@@ -41,12 +47,9 @@ function App() {
             <Route path="/admin-login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/myorders" element={<MyOrders theme={theme} />} />
-            <Route path="*" element={<AdminLogin />} />
             <Route path="*" element={<h1 className="text-center mt-5">404 - Page Not Found</h1>} />
           </Routes>
         </div>
-        
-        
 
         {/* Footer */}
         <Footer />
@@ -56,3 +59,4 @@ function App() {
 }
 
 export default App;
+
