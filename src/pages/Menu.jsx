@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Card, Button, Row, Col, Container, Form } from "react-bootstrap";
 import { FaStar } from "react-icons/fa";
 
-//  Star Rating Component (optional if you want customers to rate directly in menu)
+// ⭐ Star Rating Component
 function StarRating({ itemId, rating, onRate }) {
   const [hover, setHover] = useState(0);
 
@@ -39,21 +39,26 @@ function Menu({ cart, setCart }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
-  // Ratings (if customers rate directly in menu)
   const [ratings, setRatings] = useState({});
 
   useEffect(() => {
-    // Load menu items from localStorage
-    const savedItems = JSON.parse(localStorage.getItem("menuItems")) || [];
-    setMenuItems(savedItems);
-    setLoading(false);
+    // ✅ Fetch from your GitHub JSON
+    fetch("food.json")
+      .then((res) => res.json())
+      .then((data) => {
+        setMenuItems(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching menu:", err);
+        setLoading(false);
+      });
 
-    // Load ratings
+    // Load ratings from localStorage
     const storedRatings = JSON.parse(localStorage.getItem("ratings")) || {};
     setRatings(storedRatings);
   }, []);
 
-  // Persist ratings to localStorage
   useEffect(() => {
     localStorage.setItem("ratings", JSON.stringify(ratings));
   }, [ratings]);
@@ -77,7 +82,7 @@ function Menu({ cart, setCart }) {
     setRatings((prev) => ({ ...prev, [itemId]: value }));
   };
 
-  // Search + Filter
+  // 🔍 Search + Filter
   const filteredItems = menuItems.filter((item) => {
     const matchesSearch = item.name
       ?.toLowerCase()
@@ -105,7 +110,11 @@ function Menu({ cart, setCart }) {
       >
         <h1
           className="fw-bold"
-          style={{ color: "#d8b0b0ff", padding: "10px 20px", borderRadius: "8px" }}
+          style={{
+            color: "#d8b0b0ff",
+            padding: "10px 20px",
+            borderRadius: "8px",
+          }}
         >
           Our Menu
         </h1>
@@ -157,28 +166,7 @@ function Menu({ cart, setCart }) {
                     <Card.Title>{item.name}</Card.Title>
                     <h5 className="text-success">₹{item.price}</h5>
 
-                    {/* ⭐ Average Rating (from reviews in localStorage) */}
-                    {item.reviews && item.reviews.length > 0 && (
-                      <div>
-                        ⭐{" "}
-                        {(
-                          item.reviews.reduce((sum, r) => sum + r.rating, 0) /
-                          item.reviews.length
-                        ).toFixed(1)}{" "}
-                        ({item.reviews.length} reviews)
-                      </div>
-                    )}
-
-                    {/* 📝 Show last 2 reviews */}
-                    <div className="mt-2">
-                      {item.reviews?.slice(-2).map((r, i) => (
-                        <p key={i} className="small text-muted">
-                          ⭐ {r.rating} – {r.comment}
-                        </p>
-                      ))}
-                    </div>
-
-                    {/* (Optional) Direct Rating */}
+                    {/* ⭐ Show Rating */}
                     <StarRating
                       itemId={item.id}
                       rating={ratings[item.id] || 0}
@@ -201,12 +189,12 @@ function Menu({ cart, setCart }) {
           )}
         </Row>
       </Container>
-     
     </div>
   );
 }
 
 export default Menu;
+
 
 
 

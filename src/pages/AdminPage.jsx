@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import AdminDashBoard from "../components/AdminDashBoard";
 import AdminMenu from "../components/AdminMenu";
 import AdminOrders from "../components/AdminOrders";
 
@@ -32,6 +33,7 @@ function AdminPage() {
       <p style={{color:"GrayText"}}>You can manage orders and menu items here.</p>
 
       {/* Admin Components */}
+      <AdminDashBoard />
       <AdminMenu />
       <AdminOrders />
     </div>

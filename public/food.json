@@ -1,5 +1,10 @@
 [
-  { "id": 1, "name": "Burger", "price": 120, "category": "Fast Food", "description": "Juicy grilled chicken patty with fresh lettuce and cheese.", "image": "/images/burger.avif" },
+  { "id": 1,
+  "name": "Burger", 
+  "price": 120, "category": "Fast Food", 
+  "description": "Juicy grilled chicken patty with fresh lettuce and cheese.", 
+  "image": "/images/burger.avif" 
+},
   { "id": 2, "name": "Pizza", "price": 250, "category": "Fast Food", "description": "Cheesy loaded pizza with tomato sauce and toppings.", "image": "/images/pizza.jpg" },
   { "id": 3, "name": "Momos", "price": 80, "category": "Fast Food", "description": "Steamed dumplings filled with spiced chicken and veggies.", "image": "/images/steammomo.jpg" },
   { "id": 4, "name": "Tacos", "price": 120, "category": "Fast Food", "description": "Crispy tortilla shells stuffed with chicken and salsa.", "image": "/images/tacos.avif" },

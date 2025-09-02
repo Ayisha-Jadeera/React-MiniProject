@@ -64,7 +64,7 @@ function MyOrders({ theme }) {
   };
 
   return (
-    <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
+    <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto",}}>
       <h2 className="mb-4">My Orders</h2>
 
       {orders.length === 0 ? (

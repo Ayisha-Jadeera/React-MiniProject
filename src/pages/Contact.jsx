@@ -1,6 +1,42 @@
-import React from 'react';
+import React, { useState } from "react";
+import { Modal, Button } from "react-bootstrap";
 
 function Contact() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [showModal, setShowModal] = useState(false); // Modal state
+
+  // ✅ Updated handleSubmit
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const newMessage = {
+      name,
+      email,
+      message,
+      time: new Date().toLocaleString(),
+    };
+
+    // Save to all messages
+    const existingMessages = JSON.parse(localStorage.getItem("messages")) || [];
+    existingMessages.push(newMessage);
+    localStorage.setItem("messages", JSON.stringify(existingMessages));
+
+    // Save also to unread (for Admin Dashboard notifications)
+    const unread = JSON.parse(localStorage.getItem("unreadMessages")) || [];
+    unread.push(newMessage);
+    localStorage.setItem("unreadMessages", JSON.stringify(unread));
+
+    // Reset form fields
+    setName("");
+    setEmail("");
+    setMessage("");
+
+    // Show success modal
+    setShowModal(true);
+  };
+
   return (
     <div>
       {/* Hero Section */}
@@ -19,6 +55,9 @@ function Contact() {
             backgroundColor: "rgba(0,0,0,0.6)",
             height: "100%",
             width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
           <h1 className="text-white fw-bold text-center">
@@ -44,7 +83,7 @@ function Contact() {
                 <p className="mb-4">
                   <strong>Address:</strong> Kasaragod, Kerala, India
                 </p>
-                <p>We’re here to help! Reach out for orders, feedback 💬</p>
+                <p>We’re here to help! Reach out for orders or queries 💬</p>
               </div>
             </div>
 
@@ -52,13 +91,15 @@ function Contact() {
             <div className="col-md-7">
               <div className="card p-4 shadow-lg border-0 rounded-3">
                 <h4 className="mb-4">Send Us a Message</h4>
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div className="mb-3">
                     <label className="form-label fw-semibold">Name</label>
                     <input
                       type="text"
                       className="form-control"
                       placeholder="Enter your name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                       required
                     />
                   </div>
@@ -69,6 +110,8 @@ function Contact() {
                       type="email"
                       className="form-control"
                       placeholder="Enter your email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       required
                     />
                   </div>
@@ -79,6 +122,8 @@ function Contact() {
                       className="form-control"
                       rows="4"
                       placeholder="Write your message..."
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
                       required
                     ></textarea>
                   </div>
@@ -101,7 +146,6 @@ function Contact() {
         </div>
       </div>
 
-      {/* Responsive Clickable Google Map */}
       <div
         className="map-section"
         style={{
@@ -145,12 +189,23 @@ function Contact() {
           }}
         ></a>
       </div>
+      
+      {/* Success Modal */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Message Sent ✅</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Thank you for reaching out. Your message has been sent to the admin.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
 
 export default Contact;
-
-
-
-

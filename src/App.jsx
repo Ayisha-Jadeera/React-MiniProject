@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
+import AdminDashBoard from "./components/AdminDashBoard";
 import Footer from "./components/Footer";
 
 import Home from "./pages/Home";
@@ -15,6 +16,8 @@ import Login from "./pages/Login";
 import UserDetailsForm from "./pages/UserDetailsForm";
 import AdminLogin from "./pages/AdminLogin";
 import AdminPage from "./pages/AdminPage";
+
+
 
 // 🔹 Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -130,6 +133,8 @@ function App() {
               path="*"
               element={<h1 className="text-center mt-5">404 - Page Not Found</h1>}
             />
+
+            <Route path="/admin" element={<AdminDashBoard />} />
           </Routes>
         </div>
 
