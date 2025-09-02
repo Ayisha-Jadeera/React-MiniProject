@@ -1,0 +1,13 @@
+.cart-page.light-mode {
+  background-image: url('public/images/food-cart.jpg');
+  background-size: cover;
+  background-position: center;
+  transition: background 0.3s ease;
+}
+
+.cart-page.dark-mode {
+  background-image: url('public/images/food-cart-dark.jpg'); /* create a dark version of the image */
+  background-size: cover;
+  background-position: center;
+  transition: background 0.3s ease;
+}

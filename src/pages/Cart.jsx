@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./Cart.css";
 
-function Cart({ cart, setCart }) {
+function Cart({ cart, setCart,theme }) {
   const navigate = useNavigate();
 
   const increaseQty = (id) =>
@@ -76,19 +77,17 @@ function Cart({ cart, setCart }) {
 
   return (
     <div
+      className={`cart-page ${theme}-mode`}
       style={{
         minHeight: "100vh",
         width: "100vw",
-        backgroundImage: "url('/images/food-cart.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
         display: "flex",
         justifyContent: "center",
         alignItems: "flex-start",
         padding: "20px",
       }}
     >
-      <div className="card shadow p-4 w-100" style={{ maxWidth: "400px", marginTop: "100px" ,marginRight: "100px" }}>
+      <div className="card shadow p-4 w-100" style={{ maxWidth: "400px", marginTop: "100px" }}>
         <h2 className="fw-bold text-center mb-4 text-danger">🛒 Your Cart</h2>
 
         {cart.length === 0 ? (

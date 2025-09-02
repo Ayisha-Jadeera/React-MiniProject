@@ -1,13 +1,22 @@
-/* Light mode */
-.review-card {
-  background-color: #ffffff;
-  color: #212529;
-  transition: background-color 0.3s ease, color 0.3s ease;
 
+.review-card {
+  background-color: #ffffff;  /* white */
+  color: #000;
+  border: 1px solid #ddd;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* Dark mode */
-body.dark-mode .review-card {
-  background-color: #1e1e1e;
-  color: #f8f9fa;
+/* Dark mode review card */
+.dark-mode .review-card {
+  background-color: #1e1e1e;  /* dark */
+  color: #f1f1f1;
+  border: 1px solid #333;
+}
+
+.dark-mode .review-card p {
+  color: #ddd;
+}
+
+.dark-mode .review-card small {
+  color: #aaa;
 }

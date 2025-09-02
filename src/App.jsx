@@ -85,7 +85,7 @@ function App() {
               path="/cart"
               element={<Cart cart={cart} setCart={setCart} theme={theme} />}
             />
-            <Route path="/admin-login" element={<AdminLogin />} />
+            <Route path="/admin-login" element={<AdminLogin theme={theme} />} />
             <Route path="/admin" element={<AdminPage />} />
             <Route
               path="/myorders"

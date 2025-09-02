@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function AdminLogin() {
+function AdminLogin({theme}) {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -40,9 +40,12 @@ function AdminLogin() {
   };
 
   return (
-    <div
+     <div
       className="d-flex justify-content-center align-items-center vh-100"
-      style={{ backgroundColor: "#f8f9fa" }}
+      style={{
+        backgroundColor: theme === "dark" ? "#1c1c1c" : "#f8f9fa",
+        transition: "background-color 0.3s",
+      }}
     >
       <div className="card shadow p-4" style={{ width: "350px", borderRadius: "15px" }}>
         <h2 className="text-center mb-4">Admin Login</h2>

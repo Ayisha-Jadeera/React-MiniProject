@@ -9,10 +9,10 @@
   { "id": 9, "name": "Noodles", "price": 159, "category": "Main Course", "description": "Stir-fried noodles with vegetables and soy sauce.", "image": "/images/noodles.webp" },
   { "id": 10, "name": "Fried Rice", "price": 190, "category": "Main Course", "description": "Chinese-style fried rice with eggs and vegetables.", "image": "/images/fried-rice.jpg" },
 
-  { "id": 12, "name": "Spring Rolls", "price": 120, "category": "Starters", "description": "Crispy fried rolls stuffed with veggies.", "image": "/images/spring-rolls.jpg" },
+  { "id": 11, "name": "Spring Rolls", "price": 120, "category": "Starters", "description": "Crispy fried rolls stuffed with veggies.", "image": "/images/spring-rolls.jpg" },
 
-  { "id": 14, "name": "Kunafa", "price": 149, "category": "Desserts", "description": "Traditional Middle Eastern sweet with cheese and syrup.", "image": "/images/kunafa.jpg" },
+  { "id": 12, "name": "Kunafa", "price": 149, "category": "Desserts", "description": "Traditional Middle Eastern sweet with cheese and syrup.", "image": "/images/kunafa.jpg" },
 
-  { "id": 17, "name": "Cold Coffee", "price": 80, "category": "Beverages", "description": "Iced coffee blended with milk and sugar.", "image": "/images/cold-coffee.jpg" }
+  { "id": 13, "name": "Cold Coffee", "price": 80, "category": "Beverages", "description": "Iced coffee blended with milk and sugar.", "image": "/images/cold-coffee.jpg" }
 ]
 
