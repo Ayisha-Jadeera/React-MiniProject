@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Container, Table, Button } from "react-bootstrap";
+import { Container, Table, Button, Toast, ToastContainer } from "react-bootstrap";
 
 function AdminOrders() {
   const [orders, setOrders] = useState([]);
+  const [toast, setToast] = useState({ show: false, message: "" });
 
-  // Function to fetch orders + merge customer and reviews
+  const statuses = ["Pending", "Processing", "Shipped", "Delivered"];
+
+  // Function to fetch orders
   const loadOrders = () => {
     const savedOrders = JSON.parse(localStorage.getItem("orders")) || [];
     const users = JSON.parse(localStorage.getItem("userDetails")) || [];
@@ -30,37 +33,59 @@ function AdminOrders() {
   };
 
   useEffect(() => {
-    // Initial load
     loadOrders();
 
-    // Listen to localStorage changes from other tabs/windows
     const handleStorageChange = (e) => {
       if (e.key === "orders" || e.key === "menuItems" || e.key === "userDetails") {
         loadOrders();
       }
     };
-    window.addEventListener("storage", handleStorageChange);
 
+    window.addEventListener("storage", handleStorageChange);
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
 
-  const handleStatusChange = (id, status) => {
-    const updated = orders.map(o => o.id === id ? { ...o, status } : o);
+  // Cycle order through statuses
+  const handleStatusChange = (id) => {
+    const updated = orders.map(o => {
+      if (o.id === id) {
+        const currentIndex = statuses.indexOf(o.status);
+        const nextStatus = statuses[(currentIndex + 1) % statuses.length];
+
+        // 🚀 If moving to "Shipped", add driver starting location
+        if (nextStatus === "Shipped") {
+          o.driverLocation = [12.9716, 77.5946]; // Example starting point (Bangalore)
+        }
+
+        showToast(`Order ${id} marked as ${nextStatus}`);
+        return { ...o, status: nextStatus };
+      }
+      return o;
+    });
+
     setOrders(updated);
-    localStorage.setItem("orders", JSON.stringify(updated));
+    localStorage.setItem("orders", JSON.stringify(updated)); // 🔄 Sync with customer
   };
 
   const handleDelete = (id) => {
     const updated = orders.filter(o => o.id !== id);
     setOrders(updated);
     localStorage.setItem("orders", JSON.stringify(updated));
+    showToast(`Order ${id} deleted`);
+  };
+
+  // Show toast helper
+  const showToast = (message) => {
+    setToast({ show: true, message });
+    setTimeout(() => setToast({ show: false, message: "" }), 3000);
   };
 
   return (
     <Container className="my-4">
       <h2 className="text-center mb-4">🛎️ Admin Orders</h2>
+
       {orders.length === 0 ? (
         <p className="text-center">No orders yet.</p>
       ) : (
@@ -89,7 +114,7 @@ function AdminOrders() {
                   ))}
                 </td>
                 <td>₹{order.total}</td>
-                <td>{order.status}</td>
+                <td><strong>{order.status}</strong></td>
                 <td>
                   {order.items.map(item => (
                     <div key={item.id} className="mb-2">
@@ -117,21 +142,11 @@ function AdminOrders() {
                 <td>
                   <Button
                     size="sm"
-                    variant="success"
+                    variant="info"
                     className="me-1 mb-1"
-                    disabled={order.status === "Completed"}
-                    onClick={() => handleStatusChange(order.id, "Completed")}
+                    onClick={() => handleStatusChange(order.id)}
                   >
-                    ✅ Complete
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="warning"
-                    className="me-1 mb-1"
-                    disabled={order.status === "Pending"}
-                    onClick={() => handleStatusChange(order.id, "Pending")}
-                  >
-                    ⏳ Pending
+                    🔄 Next Status
                   </Button>
                   <Button
                     size="sm"
@@ -147,9 +162,15 @@ function AdminOrders() {
           </tbody>
         </Table>
       )}
+
+      {/* Toast Notification */}
+      <ToastContainer position="bottom-end" className="p-3">
+        <Toast bg="dark" show={toast.show} onClose={() => setToast({ show: false, message: "" })}>
+          <Toast.Body className="text-white">{toast.message}</Toast.Body>
+        </Toast>
+      </ToastContainer>
     </Container>
   );
 }
 
 export default AdminOrders;
-

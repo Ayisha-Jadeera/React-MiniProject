@@ -1,13 +1,14 @@
+// src/pages/AdminPage.jsx
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminDashBoard from "../components/AdminDashBoard";
 import AdminMenu from "../components/AdminMenu";
-import AdminOrders from "../components/AdminOrders";
+import AdminOrders from "./AdminOrders";
 
 function AdminPage() {
   const navigate = useNavigate();
 
-  // ✅ Protect page: redirect to login if not logged in
+  // 🔹 Redirect to login if admin is not logged in
   useEffect(() => {
     const isAdminLoggedIn = sessionStorage.getItem("adminLoggedIn");
     if (!isAdminLoggedIn) {
@@ -15,29 +16,42 @@ function AdminPage() {
     }
   }, [navigate]);
 
-  // Logout
+  // 🔹 Logout handler
   const handleLogout = () => {
     sessionStorage.removeItem("adminLoggedIn"); // clear session
-    navigate("/admin-login"); // redirect to login
+    navigate("/admin-login");
   };
 
   return (
-    <div className="container mt-5">
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h1 style={{color :"gray"}}>Welcome, Admin!</h1>
-        <button className="btn btn-danger" onClick={handleLogout}>
+    <div className="container py-5">
+      {/* Header Section */}
+      <header className="d-flex justify-content-between align-items-center mb-4">
+        <h1 className="text-secondary">Welcome, Admin</h1>
+        <button className="btn btn-danger px-4" onClick={handleLogout}>
           Logout
         </button>
-      </div>
+      </header>
 
-      <p style={{color:"GrayText"}}>You can manage orders and menu items here.</p>
+      <p className="text-muted mb-5">
+        Manage your dashboard, menu items, and customer orders below.
+      </p>
 
-      {/* Admin Components */}
-      <AdminDashBoard />
-      <AdminMenu />
-      <AdminOrders />
+      {/* Admin Sections */}
+      <section className="mb-5">
+        <AdminDashBoard />
+      </section>
+
+      <section className="mb-5">
+        <AdminMenu />
+      </section>
+
+      <section className="mb-5">
+        <AdminOrders />
+      </section>
     </div>
   );
 }
 
 export default AdminPage;
+
+

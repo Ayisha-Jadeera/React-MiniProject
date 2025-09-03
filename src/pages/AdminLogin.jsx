@@ -1,7 +1,8 @@
+// src/pages/AdminLogin.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function AdminLogin({theme}) {
+function AdminLogin({ theme = "light" }) {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -27,7 +28,7 @@ function AdminLogin({theme}) {
       formData.username === ADMIN_CREDENTIALS.username &&
       formData.password === ADMIN_CREDENTIALS.password
     ) {
-      // ✅ Store admin login flag
+      // ✅ Store admin login flag in sessionStorage
       sessionStorage.setItem("adminLoggedIn", "true");
 
       setMessage("✅ Login successful! Redirecting...");
@@ -40,7 +41,7 @@ function AdminLogin({theme}) {
   };
 
   return (
-     <div
+    <div
       className="d-flex justify-content-center align-items-center vh-100"
       style={{
         backgroundColor: theme === "dark" ? "#1c1c1c" : "#f8f9fa",
@@ -88,3 +89,4 @@ function AdminLogin({theme}) {
 }
 
 export default AdminLogin;
+

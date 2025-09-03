@@ -1,12 +1,10 @@
 import React from "react";
-import { Carousel } from "react-bootstrap/Carousel";
+import Carousel from "react-bootstrap/Carousel";  // ✅ correct import
 import "bootstrap/dist/css/bootstrap.min.css";
 
-
-function Carousel() {
+function AppCarousel() {   // ✅ renamed component
   return (
-   
-      <Carousel>
+    <Carousel>
       <Carousel.Item>
         <div className="d-flex justify-content-center">
           <div className="p-2">
@@ -59,9 +57,8 @@ function Carousel() {
         </div>
       </Carousel.Item>
     </Carousel>
-
-      
-  )
+  );
 }
 
-export default Carousel
+export default AppCarousel;   // ✅ export with new name
+
