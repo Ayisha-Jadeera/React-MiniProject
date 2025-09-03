@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
-import AdminDashBoard from "./components/AdminDashBoard";
 import Footer from "./components/Footer";
 
 import Home from "./pages/Home";
@@ -13,11 +12,12 @@ import Cart from "./pages/Cart";
 import MyOrders from "./pages/MyOrders";
 
 import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 import UserDetailsForm from "./pages/UserDetailsForm";
+
 import AdminLogin from "./pages/AdminLogin";
 import AdminPage from "./pages/AdminPage";
-
-
+import AdminDashBoard from "./components/AdminDashBoard";
 
 // 🔹 Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -28,38 +28,25 @@ const ProtectedRoute = ({ children }) => {
 function App() {
   const [cart, setCart] = useState([]);
   const [theme, setTheme] = useState("light");
-  const [user, setUser] = useState(() => {
-    const storedUser = localStorage.getItem("user");
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
-  const [details, setDetails] = useState(() => {
-    const storedDetails = JSON.parse(localStorage.getItem("userDetails")) || [];
-    if (user) {
-      return storedDetails.find(u => u.phone === user.phone) || null;
-    }
-    return null;
-  });
+  const [user, setUser] = useState(null);
+
+  // Toggle theme
+  const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
+
+  // Load user from localStorage
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser) setUser(storedUser);
+  }, []);
 
   // Apply theme to <html>
   useEffect(() => {
     document.documentElement.setAttribute("data-bs-theme", theme);
   }, [theme]);
 
-  const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
-
-  // Save updated details
-  useEffect(() => {
-    if (details) {
-      const allDetails = JSON.parse(localStorage.getItem("userDetails")) || [];
-      const others = allDetails.filter(u => u.phone !== details.phone);
-      localStorage.setItem("userDetails", JSON.stringify([...others, details]));
-    }
-  }, [details]);
-
   return (
     <Router>
       <div className={`${theme}-mode min-vh-100 d-flex flex-column`}>
-        {/* Navbar */}
         <Navbar
           cart={cart}
           theme={theme}
@@ -68,77 +55,47 @@ function App() {
           setUser={setUser}
         />
 
-        
-
-        {/* Main Content */}
         <div className="flex-grow-1">
           <Routes>
-            
             <Route path="/" element={<Home />} />
-
-            {/* Protected Routes */}
-            <Route
-              path="/menu"
-              element={
-                <ProtectedRoute>
-                  <Menu cart={cart} setCart={setCart} />
-                </ProtectedRoute>
-              }
-            />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
-            <Route
-              path="/cart"
-              element={<Cart cart={cart} setCart={setCart} theme={theme} />}
-            />
-            <Route path="/admin-login" element={<AdminLogin theme={theme} />} />
+
+            <Route path="/login" element={<Login setUser={setUser} />} />
+            <Route path="/signup" element={<Signup />} />
+
+            <Route path="/user-details" element={
+              <ProtectedRoute>
+                <UserDetailsForm />
+              </ProtectedRoute>
+            } />
+
+            <Route path="/menu" element={
+              <ProtectedRoute>
+                <Menu cart={cart} setCart={setCart} />
+              </ProtectedRoute>
+            } />
+            <Route path="/cart" element={
+              <ProtectedRoute>
+                <Cart cart={cart} setCart={setCart} />
+              </ProtectedRoute>
+            } />
+            <Route path="/myorders" element={
+              <ProtectedRoute>
+                <MyOrders theme= {theme} />
+              </ProtectedRoute>
+            } />
+
+            {/* Admin */}
+            <Route path="/admin-login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminPage />} />
-            <Route
-              path="/myorders"
-              element={
-                <ProtectedRoute>
-                  <MyOrders theme={theme} />
-                </ProtectedRoute>
-              }
-            />
-
-            {/* Login + OTP Flow */}
-            <Route
-              path="/login"
-              element={
-                !user ? (
-                  <Login onLoginSuccess={setUser} />
-                ) : !details ? (
-                  <UserDetailsForm user={user} onSubmit={setDetails} />
-                ) : (
-                  <Navigate to="/menu" />
-                )
-              }
-            />
-
-            {/* Signup/Details for new customer */}
-            <Route
-              path="/user-details"
-              element={
-                user && !details ? (
-                  <UserDetailsForm user={user} onSubmit={setDetails} />
-                ) : (
-                  <Navigate to="/menu" />
-                )
-              }
-            />
+            <Route path="/admin-dashboard" element={<AdminDashBoard />} />
 
             {/* 404 */}
-            <Route
-              path="*"
-              element={<h1 className="text-center mt-5">404 - Page Not Found</h1>}
-            />
-
-            <Route path="/admin" element={<AdminDashBoard />} />
+            <Route path="*" element={<h1 className="text-center mt-5">404 - Page Not Found</h1>} />
           </Routes>
         </div>
 
-        {/* Footer */}
         <Footer />
       </div>
     </Router>
@@ -146,4 +103,9 @@ function App() {
 }
 
 export default App;
+
+
+
+
+
 

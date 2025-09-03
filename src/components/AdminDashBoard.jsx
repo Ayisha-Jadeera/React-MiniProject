@@ -6,39 +6,29 @@ function AdminDashboard() {
   const [messages, setMessages] = useState([]);
   const [unreadMessages, setUnreadMessages] = useState([]);
 
-  // Keep only last 5
+  // Keep only last 5 messages
   const trimToFive = (arr) => arr.slice(-5);
 
   // Load messages from localStorage
   const loadMessages = () => {
-    let storedMessages = JSON.parse(localStorage.getItem("messages")) || [];
-    let storedUnread = JSON.parse(localStorage.getItem("unreadMessages")) || [];
+    const storedMessages = JSON.parse(localStorage.getItem("messages")) || [];
+    const storedUnread = JSON.parse(localStorage.getItem("unreadMessages")) || [];
 
-    // Keep only last 5
-    storedMessages = trimToFive(storedMessages);
-    storedUnread = trimToFive(storedUnread);
+    // Trim to last 5 but do NOT reverse storage
+    const lastMessages = trimToFive(storedMessages);
+    const lastUnread = trimToFive(storedUnread);
 
-    // ✅ Reverse order → latest first
-    storedMessages = storedMessages.reverse();
-    storedUnread = storedUnread.reverse();
-
-    // Save trimmed back to localStorage
-    localStorage.setItem("messages", JSON.stringify(storedMessages));
-    localStorage.setItem("unreadMessages", JSON.stringify(storedUnread));
-
-    setMessages(storedMessages);
-    setUnreadMessages(storedUnread);
+    // Reverse for display only (latest first)
+    setMessages([...lastMessages].reverse());
+    setUnreadMessages([...lastUnread].reverse());
   };
 
+  // Auto-refresh every 2 seconds and listen to storage changes
   useEffect(() => {
     loadMessages();
 
-    // 🔄 Auto-refresh every 2 seconds
-    const interval = setInterval(() => {
-      loadMessages();
-    }, 2000);
+    const interval = setInterval(loadMessages, 2000);
 
-    // 👂 Listen for changes from other tabs/windows
     window.addEventListener("storage", loadMessages);
 
     return () => {
@@ -47,13 +37,14 @@ function AdminDashboard() {
     };
   }, []);
 
-  // Mark as Read
+  // Mark a single unread message as read
   const markAsRead = (index) => {
     const updatedUnread = [...unreadMessages];
     updatedUnread.splice(index, 1);
-    const trimmedUnread = trimToFive(updatedUnread);
-    setUnreadMessages(trimmedUnread);
-    localStorage.setItem("unreadMessages", JSON.stringify(trimmedUnread));
+
+    // Reverse again for display
+    setUnreadMessages([...updatedUnread]);
+    localStorage.setItem("unreadMessages", JSON.stringify([...updatedUnread].reverse()));
   };
 
   return (
@@ -69,20 +60,13 @@ function AdminDashboard() {
               <Card className="mb-2 shadow-sm" key={index}>
                 <Card.Body>
                   <Card.Title style={{ fontSize: "1rem" }}>{msg.name}</Card.Title>
-                  <Card.Subtitle
-                    className="mb-1 text-muted"
-                    style={{ fontSize: "0.85rem" }}
-                  >
+                  <Card.Subtitle className="mb-1 text-muted" style={{ fontSize: "0.85rem" }}>
                     {msg.email}
                   </Card.Subtitle>
                   <Card.Text style={{ fontSize: "0.9rem" }}>{msg.message}</Card.Text>
                   <small className="text-muted">{msg.time}</small>
                   <div className="mt-2">
-                    <Button
-                      variant="success"
-                      size="sm"
-                      onClick={() => markAsRead(index)}
-                    >
+                    <Button variant="success" size="sm" onClick={() => markAsRead(index)}>
                       Mark Read
                     </Button>
                   </div>
@@ -94,7 +78,6 @@ function AdminDashboard() {
 
         {/* 📊 Main Dashboard Content */}
         <div className="col-md-9">
-          {/* Header */}
           <div className="d-flex justify-content-between align-items-center mb-4">
             <h2>📊 Admin Dashboard</h2>
             <Button variant="primary" onClick={loadMessages}>
@@ -102,7 +85,6 @@ function AdminDashboard() {
             </Button>
           </div>
 
-          {/* All Messages */}
           <div className="mt-3">
             <h4>📜 All Messages</h4>
             {messages.length === 0 ? (
@@ -112,9 +94,7 @@ function AdminDashboard() {
                 <Card className="mb-3 shadow-sm" key={index}>
                   <Card.Body>
                     <Card.Title>{msg.name}</Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">
-                      {msg.email}
-                    </Card.Subtitle>
+                    <Card.Subtitle className="mb-2 text-muted">{msg.email}</Card.Subtitle>
                     <Card.Text>{msg.message}</Card.Text>
                     <small className="text-muted">{msg.time}</small>
                   </Card.Body>
@@ -129,6 +109,7 @@ function AdminDashboard() {
 }
 
 export default AdminDashboard;
+
 
 
 

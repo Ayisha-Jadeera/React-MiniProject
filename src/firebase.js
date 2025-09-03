@@ -1,21 +1,36 @@
-// Import the functions you need from the SDKs you need
+// src/firebase.js
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { 
+  getAuth, 
+  RecaptchaVerifier, 
+  signInWithPhoneNumber,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut
+} from "firebase/auth";
 
-// Your web app's Firebase configuration
+// ✅ Your Firebase config
 const firebaseConfig = {
-  apiKey: "AIzaSyAOK4xzo9bYatcPjRO9BBNGDA7BHlkgdUI",
-  authDomain: "parche-food-ordering-app.firebaseapp.com",
-  projectId: "parche-food-ordering-app",
-  storageBucket: "parche-food-ordering-app.firebasestorage.app",
-  messagingSenderId: "996447201925",
-  appId: "1:996447201925:web:64c88fa10185794cf917ec"
+  apiKey: "AIzaSyAEZcPLSKepF8TfgZzPC4Dm267f0q34axE",
+  authDomain: "food-ordering-app-a48cf.firebaseapp.com",
+  projectId: "food-ordering-app-a48cf",
+  storageBucket: "food-ordering-app-a48cf.firebasestorage.app",
+  messagingSenderId: "1098604277037",
+  appId: "1:1098604277037:web:8052fe1b005f54b3ceb7a4"
 };
 
-// Initialize Firebase
+// ✅ Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
 
-export { ref, push, onValue };
+// ✅ Auth instance (use this everywhere)
+const auth = getAuth(app);
+
+// ✅ Export everything you need
+export { 
+  auth, 
+  RecaptchaVerifier, 
+  signInWithPhoneNumber,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut
+};
