@@ -21,7 +21,6 @@ import Cart from "./pages/Cart";
 import MyOrders from "./pages/MyOrders";
 import AdminOrders from "./pages/AdminOrders";
 import TrackOrder from "./pages/TrackOrder";
-import OrderTracking from "./pages/TrackingOrder";
 import Login from "./pages/Login";
 import LoginOtp from "./pages/LoginOtp";
 import Signup from "./pages/Signup";
@@ -127,8 +126,8 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/track-order/:orderId" element={<OrderTracking />} />
-             <Route path="/track/:orderId" element={<TrackOrder />} />
+         
+             <Route path="/track-order/:orderId" element={<TrackOrder />} />
             <Route
               path="/star-rating"
               element={

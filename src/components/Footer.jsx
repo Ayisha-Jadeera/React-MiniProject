@@ -46,7 +46,7 @@ function Footer() {
           <FaFacebookF />
         </a>
         <a
-          href="api.whatsapp.com/send?phone=+919745444656"
+          href="https://wa.me/919745444656?text=Hello%20I%20would%20like%20to%20order%20food"
           target="_blank"
           rel="noopener noreferrer"
           style={{ margin: "0 10px", color: "#edf3f3ff" }}

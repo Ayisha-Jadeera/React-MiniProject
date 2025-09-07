@@ -1,4 +1,3 @@
-// src/pages/MyOrders.jsx
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { FaStar } from "react-icons/fa";
@@ -11,37 +10,50 @@ function MyOrders({ theme }) {
   const [hover, setHover] = useState(0);
   const [comment, setComment] = useState("");
 
-  // Load last 2 orders
-  useEffect(() => {
+  // Load last 2 orders from localStorage
+  const loadOrders = () => {
     const savedOrders = JSON.parse(localStorage.getItem("orders")) || [];
     setOrders(savedOrders.slice(-2));
+  };
+
+  useEffect(() => {
+    loadOrders();
+
+    // Live updates
+    const handleStorageChange = (e) => {
+      if (e.key === "orders") loadOrders();
+    };
+    window.addEventListener("storage", handleStorageChange);
+    const interval = setInterval(loadOrders, 3000);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      clearInterval(interval);
+    };
   }, []);
 
   const saveOrders = (newOrders) => {
-    const lastTwo = newOrders.slice(-2);
-    localStorage.setItem("orders", JSON.stringify(lastTwo));
-    setOrders(lastTwo);
+    localStorage.setItem("orders", JSON.stringify(newOrders));
+    setOrders(newOrders.slice(-2));
   };
 
   const markDelivered = (orderId) => {
-    const updated = orders.map(order =>
-      order.id === orderId ? { ...order, status: "Delivered" } : order
+    const updated = orders.map((o) =>
+      o.id === orderId ? { ...o, status: "Delivered" } : o
     );
     saveOrders(updated);
   };
 
   const submitReview = () => {
     if (!selectedOrder) return;
-    const updatedOrders = orders.map(order =>
-      order.id === selectedOrder.id
-        ? { ...order, review: { rating, comment } }
-        : order
+    const updatedOrders = orders.map((o) =>
+      o.id === selectedOrder.id ? { ...o, review: { rating, comment } } : o
     );
     saveOrders(updatedOrders);
 
     const menuItems = JSON.parse(localStorage.getItem("menuItems")) || [];
-    selectedOrder.items.forEach(item => {
-      const index = menuItems.findIndex(i => i.id === item.id);
+    selectedOrder.items.forEach((item) => {
+      const index = menuItems.findIndex((m) => m.id === item.id);
       if (index !== -1) {
         if (!menuItems[index].reviews) menuItems[index].reviews = [];
         menuItems[index].reviews.push({ rating, comment });
@@ -56,13 +68,12 @@ function MyOrders({ theme }) {
   };
 
   return (
-    <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto"}}>
+    <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
       <h2 className="mb-4">My Orders</h2>
-
       {orders.length === 0 ? (
         <p className="text-muted">No recent orders.</p>
       ) : (
-        orders.map(order => (
+        orders.map((order) => (
           <div
             key={order.id}
             className={`p-3 mb-3 rounded shadow-sm ${
@@ -83,7 +94,11 @@ function MyOrders({ theme }) {
               </Link>
 
               {order.status === "Delivered" && !order.review && (
-                <Button size="sm" variant="secondary" onClick={() => setSelectedOrder(order)}>
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  onClick={() => setSelectedOrder(order)}
+                >
                   Add Review
                 </Button>
               )}
@@ -105,7 +120,11 @@ function MyOrders({ theme }) {
             )}
 
             {order.status !== "Delivered" && (
-              <Button size="sm" variant="success" onClick={() => markDelivered(order.id)}>
+              <Button
+                size="sm"
+                variant="success"
+                onClick={() => markDelivered(order.id)}
+              >
                 Mark Delivered
               </Button>
             )}
@@ -138,7 +157,6 @@ function MyOrders({ theme }) {
               })}
             </div>
           </div>
-
           <Form.Group>
             <Form.Label>Write a comment</Form.Label>
             <Form.Control
@@ -163,6 +181,19 @@ function MyOrders({ theme }) {
 }
 
 export default MyOrders;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
