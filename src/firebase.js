@@ -8,6 +8,7 @@ import {
   signInWithEmailAndPassword,
   signOut
 } from "firebase/auth";
+import { getDatabase } from "firebase/database";
 
 // ✅ Your Firebase config
 const firebaseConfig = {
@@ -34,3 +35,4 @@ export {
   signInWithEmailAndPassword,
   signOut
 };
+export const db = getDatabase(app);
