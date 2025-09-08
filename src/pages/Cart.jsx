@@ -2,16 +2,17 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Cart.css";
 
-function Cart({ cart, setCart,theme }) {
+function Cart({ cart, setCart, theme }) {
   const navigate = useNavigate();
 
   const increaseQty = (id) =>
     setCart(cart.map(item => item.id === id ? { ...item, qty: item.qty + 1 } : item));
 
   const decreaseQty = (id) =>
-    setCart(cart
-      .map(item => item.id === id ? { ...item, qty: item.qty - 1 } : item)
-      .filter(item => item.qty > 0)
+    setCart(
+      cart
+        .map(item => item.id === id ? { ...item, qty: item.qty - 1 } : item)
+        .filter(item => item.qty > 0)
     );
 
   const removeItem = (id) => setCart(cart.filter(item => item.id !== id));
@@ -40,22 +41,28 @@ function Cart({ cart, setCart,theme }) {
     if (!formData.name || !formData.address || !formData.phone)
       return alert("⚠️ Please fill all required fields!");
 
-    if (formData.payment === "Card" &&
-        (!formData.cardNumber || !formData.expiry || !formData.cvv))
+    if (
+      formData.payment === "Card" &&
+      (!formData.cardNumber || !formData.expiry || !formData.cvv)
+    )
       return alert("⚠️ Please enter complete card details!");
 
     if (formData.payment === "UPI" && !formData.upiId)
       return alert("⚠️ Please enter your UPI ID!");
 
-    const orderData = {
+    // ✅ Always create a new order with default Pending status
+    const newOrder = {
+      id: Date.now(),
       customer: formData,
       items: cart,
       total,
       date: new Date().toLocaleString(),
+      status: "Pending",       // Always starts with Pending
+      driverLocation: null,    // Reserved for live tracking
     };
 
     const savedOrders = JSON.parse(localStorage.getItem("orders")) || [];
-    savedOrders.push(orderData);
+    savedOrders.push(newOrder);
     localStorage.setItem("orders", JSON.stringify(savedOrders));
 
     alert(`✅ Order Confirmed via ${formData.payment}!`);
@@ -87,11 +94,16 @@ function Cart({ cart, setCart,theme }) {
         padding: "20px",
       }}
     >
-      <div className="card shadow p-4 w-100" style={{ maxWidth: "400px", marginTop: "100px" }}>
+      <div
+        className="card shadow p-4 w-100"
+        style={{ maxWidth: "400px", marginTop: "100px" }}
+      >
         <h2 className="fw-bold text-center mb-4 text-danger">🛒 Your Cart</h2>
 
         {cart.length === 0 ? (
-          <p className="fs-5 fw-semibold text-center text-muted">Your cart is empty</p>
+          <p className="fs-5 fw-semibold text-center text-muted">
+            Your cart is empty
+          </p>
         ) : (
           <>
             {cart.map((item) => (
@@ -101,19 +113,41 @@ function Cart({ cart, setCart,theme }) {
               >
                 <div>
                   <h6 className="mb-1 text-dark">{item.name}</h6>
-                  <p className="mb-0 text-muted small">₹{item.price} × {item.qty}</p>
+                  <p className="mb-0 text-muted small">
+                    ₹{item.price} × {item.qty}
+                  </p>
                 </div>
                 <div className="mt-2 mt-md-0">
-                  <button className="btn btn-sm btn-outline-secondary me-1" onClick={() => decreaseQty(item.id)}>➖</button>
-                  <button className="btn btn-sm btn-outline-secondary me-1" onClick={() => increaseQty(item.id)}>➕</button>
-                  <button className="btn btn-sm btn-danger" onClick={() => removeItem(item.id)}>❌</button>
+                  <button
+                    className="btn btn-sm btn-outline-secondary me-1"
+                    onClick={() => decreaseQty(item.id)}
+                  >
+                    ➖
+                  </button>
+                  <button
+                    className="btn btn-sm btn-outline-secondary me-1"
+                    onClick={() => increaseQty(item.id)}
+                  >
+                    ➕
+                  </button>
+                  <button
+                    className="btn btn-sm btn-danger"
+                    onClick={() => removeItem(item.id)}
+                  >
+                    ❌
+                  </button>
                 </div>
               </div>
             ))}
 
             <div className="d-flex justify-content-between mt-3">
               <h5 className="text-dark">Total: ₹{total}</h5>
-              <button className="btn btn-success btn-sm" onClick={() => setShowForm(true)}>Checkout</button>
+              <button
+                className="btn btn-success btn-sm"
+                onClick={() => setShowForm(true)}
+              >
+                Checkout
+              </button>
             </div>
           </>
         )}
@@ -136,27 +170,55 @@ function Cart({ cart, setCart,theme }) {
             padding: "15px",
           }}
         >
-          <div className="w-100 bg-white p-4 rounded" style={{ maxWidth: "500px" }}>
+          <div
+            className="w-100 bg-white p-4 rounded"
+            style={{ maxWidth: "500px" }}
+          >
             <h3 className="text-center mb-3">Checkout</h3>
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
                 <label className="form-label">Name</label>
-                <input type="text" name="name" value={formData.name} onChange={handleChange} className="form-control" required />
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="form-control"
+                  required
+                />
               </div>
 
               <div className="mb-3">
                 <label className="form-label">Address</label>
-                <textarea name="address" value={formData.address} onChange={handleChange} className="form-control" required />
+                <textarea
+                  name="address"
+                  value={formData.address}
+                  onChange={handleChange}
+                  className="form-control"
+                  required
+                />
               </div>
 
               <div className="mb-3">
                 <label className="form-label">Phone</label>
-                <input type="tel" name="phone" value={formData.phone} onChange={handleChange} className="form-control" required />
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="form-control"
+                  required
+                />
               </div>
 
               <div className="mb-3">
                 <label className="form-label">Payment Method</label>
-                <select name="payment" value={formData.payment} onChange={handleChange} className="form-select">
+                <select
+                  name="payment"
+                  value={formData.payment}
+                  onChange={handleChange}
+                  className="form-select"
+                >
                   <option value="COD">Cash on Delivery</option>
                   <option value="Card">Credit/Debit Card</option>
                   <option value="UPI">UPI</option>
@@ -167,11 +229,35 @@ function Cart({ cart, setCart,theme }) {
                 <>
                   <div className="mb-3">
                     <label className="form-label">Card Number</label>
-                    <input type="text" name="cardNumber" value={formData.cardNumber} onChange={handleChange} className="form-control" placeholder="XXXX-XXXX-XXXX-1234" required />
+                    <input
+                      type="text"
+                      name="cardNumber"
+                      value={formData.cardNumber}
+                      onChange={handleChange}
+                      className="form-control"
+                      placeholder="XXXX-XXXX-XXXX-1234"
+                      required
+                    />
                   </div>
                   <div className="mb-3 d-flex flex-wrap gap-2">
-                    <input type="text" name="expiry" value={formData.expiry} onChange={handleChange} className="form-control flex-fill" placeholder="MM/YY" required />
-                    <input type="password" name="cvv" value={formData.cvv} onChange={handleChange} className="form-control flex-fill" placeholder="CVV" required />
+                    <input
+                      type="text"
+                      name="expiry"
+                      value={formData.expiry}
+                      onChange={handleChange}
+                      className="form-control flex-fill"
+                      placeholder="MM/YY"
+                      required
+                    />
+                    <input
+                      type="password"
+                      name="cvv"
+                      value={formData.cvv}
+                      onChange={handleChange}
+                      className="form-control flex-fill"
+                      placeholder="CVV"
+                      required
+                    />
                   </div>
                 </>
               )}
@@ -179,13 +265,29 @@ function Cart({ cart, setCart,theme }) {
               {formData.payment === "UPI" && (
                 <div className="mb-3">
                   <label className="form-label">UPI ID</label>
-                  <input type="text" name="upiId" value={formData.upiId} onChange={handleChange} className="form-control" placeholder="yourname@upi" required />
+                  <input
+                    type="text"
+                    name="upiId"
+                    value={formData.upiId}
+                    onChange={handleChange}
+                    className="form-control"
+                    placeholder="yourname@upi"
+                    required
+                  />
                 </div>
               )}
 
               <div className="d-flex justify-content-between flex-wrap gap-2">
-                <button type="submit" className="btn btn-primary flex-fill">Confirm Order</button>
-                <button type="button" className="btn btn-secondary flex-fill" onClick={() => setShowForm(false)}>Cancel</button>
+                <button type="submit" className="btn btn-primary flex-fill">
+                  Confirm Order
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-secondary flex-fill"
+                  onClick={() => setShowForm(false)}
+                >
+                  Cancel
+                </button>
               </div>
             </form>
           </div>
@@ -196,3 +298,4 @@ function Cart({ cart, setCart,theme }) {
 }
 
 export default Cart;
+

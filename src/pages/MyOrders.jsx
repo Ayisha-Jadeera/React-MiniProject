@@ -1,3 +1,4 @@
+// src/pages/MyOrders.jsx
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { FaStar } from "react-icons/fa";
@@ -10,7 +11,7 @@ function MyOrders({ theme }) {
   const [hover, setHover] = useState(0);
   const [comment, setComment] = useState("");
 
-  // Load last 2 orders from localStorage
+  // ✅ Load last 2 orders
   const loadOrders = () => {
     const savedOrders = JSON.parse(localStorage.getItem("orders")) || [];
     setOrders(savedOrders.slice(-2));
@@ -19,11 +20,11 @@ function MyOrders({ theme }) {
   useEffect(() => {
     loadOrders();
 
-    // Live updates
     const handleStorageChange = (e) => {
       if (e.key === "orders") loadOrders();
     };
     window.addEventListener("storage", handleStorageChange);
+
     const interval = setInterval(loadOrders, 3000);
 
     return () => {
@@ -32,25 +33,23 @@ function MyOrders({ theme }) {
     };
   }, []);
 
-  const saveOrders = (newOrders) => {
-    localStorage.setItem("orders", JSON.stringify(newOrders));
-    setOrders(newOrders.slice(-2));
+  // ✅ Update full orders in localStorage
+  const updateAllOrders = (updatedOrders) => {
+    localStorage.setItem("orders", JSON.stringify(updatedOrders));
+    setOrders(updatedOrders.slice(-2));
   };
 
-  const markDelivered = (orderId) => {
-    const updated = orders.map((o) =>
-      o.id === orderId ? { ...o, status: "Delivered" } : o
-    );
-    saveOrders(updated);
-  };
-
+  // ✅ Submit review
   const submitReview = () => {
     if (!selectedOrder) return;
-    const updatedOrders = orders.map((o) =>
+
+    const allOrders = JSON.parse(localStorage.getItem("orders")) || [];
+    const updatedAll = allOrders.map((o) =>
       o.id === selectedOrder.id ? { ...o, review: { rating, comment } } : o
     );
-    saveOrders(updatedOrders);
+    updateAllOrders(updatedAll);
 
+    // Also save review into menuItems
     const menuItems = JSON.parse(localStorage.getItem("menuItems")) || [];
     selectedOrder.items.forEach((item) => {
       const index = menuItems.findIndex((m) => m.id === item.id);
@@ -61,6 +60,7 @@ function MyOrders({ theme }) {
     });
     localStorage.setItem("menuItems", JSON.stringify(menuItems));
 
+    // Reset modal
     setRating(0);
     setHover(0);
     setComment("");
@@ -70,6 +70,7 @@ function MyOrders({ theme }) {
   return (
     <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
       <h2 className="mb-4">My Orders</h2>
+
       {orders.length === 0 ? (
         <p className="text-muted">No recent orders.</p>
       ) : (
@@ -118,22 +119,16 @@ function MyOrders({ theme }) {
                 <p>{order.review.comment}</p>
               </div>
             )}
-
-            {order.status !== "Delivered" && (
-              <Button
-                size="sm"
-                variant="success"
-                onClick={() => markDelivered(order.id)}
-              >
-                Mark Delivered
-              </Button>
-            )}
           </div>
         ))
       )}
 
-      {/* Review Modal */}
-      <Modal show={!!selectedOrder} onHide={() => setSelectedOrder(null)} centered>
+      {/* ✅ Review Modal */}
+      <Modal
+        show={!!selectedOrder}
+        onHide={() => setSelectedOrder(null)}
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title>Add Review</Modal.Title>
         </Modal.Header>
@@ -147,7 +142,9 @@ function MyOrders({ theme }) {
                   <FaStar
                     key={i}
                     size={24}
-                    color={ratingValue <= (hover || rating) ? "gold" : "lightgray"}
+                    color={
+                      ratingValue <= (hover || rating) ? "gold" : "lightgray"
+                    }
                     onClick={() => setRating(ratingValue)}
                     onMouseEnter={() => setHover(ratingValue)}
                     onMouseLeave={() => setHover(0)}
@@ -181,23 +178,6 @@ function MyOrders({ theme }) {
 }
 
 export default MyOrders;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

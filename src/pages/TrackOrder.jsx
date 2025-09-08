@@ -1,7 +1,7 @@
 // src/pages/TrackOrder.jsx
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ProgressBar, Button, Card } from "react-bootstrap";
+import { ProgressBar, Button, Card, Alert } from "react-bootstrap";
 
 export default function TrackOrder() {
   const { orderId } = useParams();
@@ -16,19 +16,20 @@ export default function TrackOrder() {
 
   const loadOrder = () => {
     const savedOrders = JSON.parse(localStorage.getItem("orders")) || [];
-    const found = savedOrders.find((o) => String(o.id) === orderId); // ✅ only this order
+    const found = savedOrders.find((o) => String(o.id) === String(orderId));
     setOrder(found || null);
   };
 
   useEffect(() => {
     loadOrder();
 
+    // Listen for changes in localStorage
     const handleStorageChange = (e) => {
       if (e.key === "orders") loadOrder();
     };
     window.addEventListener("storage", handleStorageChange);
 
-    // Poll for updates every 2–3s
+    // Poll every 3s
     const interval = setInterval(loadOrder, 3000);
 
     return () => {
@@ -38,6 +39,8 @@ export default function TrackOrder() {
   }, [orderId]);
 
   if (!order) return <h3 className="text-center mt-5">Loading order...</h3>;
+
+  const progressValue = progressMap[order.status] || 0;
 
   return (
     <div className="container mt-4">
@@ -53,15 +56,29 @@ export default function TrackOrder() {
           Current Status: <strong>{order.status}</strong>
         </p>
 
-        {/* Progress bar for status */}
+        {/* ✅ Animated progress bar based on admin updates */}
         <ProgressBar
-          now={progressMap[order.status] || 0}
-          label={order.status}
+          now={progressValue}
+          label={`${progressValue}%`}
           animated={order.status !== "Delivered"}
-          striped
+          striped={order.status !== "Delivered"}
+          variant={
+            order.status === "Delivered"
+              ? "success"
+              : order.status === "Shipped"
+              ? "info"
+              : "warning"
+          }
+          style={{ transition: "width 1s ease-in-out" }}
         />
 
-        {/* Order items */}
+        {/* ✅ Success alert when Delivered */}
+        {order.status === "Delivered" && (
+          <Alert variant="success" className="mt-3 text-center">
+            ✅ Order Delivered Successfully!
+          </Alert>
+        )}
+
         <div className="mt-3">
           <strong>Items:</strong>
           {order.items.map((i) => (
@@ -84,6 +101,8 @@ export default function TrackOrder() {
     </div>
   );
 }
+
+
 
 
 
